@@ -1,9 +1,12 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../NavBarComponent/NavBarComponent';
 import { signUp } from '../../services/users/users-service'
 
-export default function SignupForm() {
+export default function SignupForm({ setUser, user }) {
+
+    const navigate = useNavigate();
 
     //store the input data in an state object to be used as argument param later
     const [credentials, setCredentials] = useState({
@@ -12,29 +15,30 @@ export default function SignupForm() {
         password: '',
         confirm: ''
     });
+    const [errorMessage, setErrorMessage] = useState({ message: '', details: '' });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // Perform form submission or validation logic
-            // using the values in the `credentials` state
-            console.log(credentials);
-            //TODO: check password matches confirm
-            //check password follow policies
+            // Perform form submission or validation logic using the values in the `credentials` state
+            console.log("credentials: " + JSON.stringify(credentials));
+            //always make a copy with spread operator      
             const formData = { ...credentials };
+
+            //check password matches confirm
+            if (formData.password !== formData.confirm) {
+                throw new Error("Passwords do not match. Please try again");
+            }
+            //check password follow policies (optional)
+
             delete formData.confirm;
-            //const user = await signUp(formData);
-            //console.log(user);
-        } catch {
-            console.log("error");
-        } finally {
-            // Reset the form
-            setCredentials({
-                username: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            });
+            const user = await signUp(formData);
+            setUser(user);
+            navigate('/', { replace: true });
+
+        } catch (error) {           
+            //setErrorMessage( {message: "bad stuff happened", details: "details of bad stuff"});
+            setErrorMessage({ message: error.error, details: error.details });
         }
     };
 
@@ -45,13 +49,20 @@ export default function SignupForm() {
      */
     const handleChange = (event) => {
         setCredentials({ ...credentials, [event.currentTarget.name]: event.currentTarget.value });
+        setErrorMessage('');
     }
 
+
+    /**
+     * In React, a controlled component is one where the value of the input is controlled by React state, 
+     * while an uncontrolled component allows the input value to be managed by the DOM.
+     * To do a controlled component the 'value' field should be set by the react state props.
+     */
     return (
         <Container>
             <Row>
                 <Col>
-                    <NavbarComponent />
+                    <NavbarComponent setUser={setUser} user={user} />
                 </Col>
             </Row>
             <Row>
@@ -87,6 +98,11 @@ export default function SignupForm() {
                     </Form>
                 </Col>
             </Row>
+            <div>
+                <p className="error-message">
+                    error: { errorMessage.message}: {errorMessage.details}
+                </p>
+            </div>
         </Container>
     );
 }
