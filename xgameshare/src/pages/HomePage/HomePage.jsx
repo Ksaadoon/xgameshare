@@ -2,13 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import NavBarComponent from '../../components/NavBarComponent/NavBarComponent';
 
-export default function HomePage() {
+
+export default function HomePage({setUser, user}) {
     return (
         <>
         <Container>
           <Row>
             <Col>
-              <NavBarComponent/>
+              <NavBarComponent setUser={setUser} user={user} />
             </Col>
           </Row>
           <Row>

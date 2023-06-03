@@ -37,7 +37,7 @@ app.use(express.json())
 // ---------------
 // Put all API routes here (before the catch-all)
 //some routes here
-
+app.use('/api/users', require('./routes/users'));
 
 // Catch all - must be at the end of routes
 // A single "catch all" route is required to serve the index.html when any non-AJAX "API"
@@ -49,6 +49,5 @@ app.get('/*', function(req, res) {
 // ___________________
 // Listener
 // ___________________
-module.exports = app.listen(port, () => console.log('Running server:' +  process.env.HOST + 
-' on port:' + port))
+module.exports = app.listen(port, () => console.log('Running express server on port:' + port))
 
