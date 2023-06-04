@@ -65,7 +65,7 @@ function createJWT(user) {
   return jwt.sign(
     // extra data for the payload
     { user },
-    process.env.SECRET,
+    process.env.XGAMESHARE_SECRET,
     { expiresIn: '24h' }
   );
 }

@@ -7,6 +7,7 @@ import SignupForm from '../../components/SignupForm/SignupForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import { useState } from 'react';
 import { getUser } from '../../services/users/users-service';
+import TwitchAuth from '../../components/TwitchAuth/TwitchAuth';
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
 
   return (
     <>
+    <TwitchAuth/>
     {/* Client side routes */}
     <Routes>
       <Route path="/login" element={ <LoginForm setUser={setUser} user={user}/> } />
