@@ -9,13 +9,26 @@ import { useState } from 'react';
 import { getUser } from '../../services/users/users-service';
 import TwitchAuth from '../../components/TwitchAuth/TwitchAuth';
 
+
 export default function App() {
 
   const [user, setUser] = useState(getUser());
 
+  /*
+  In order to force the first-time authentication
+  */
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessToken, setAccessToken] = useState(null)
+  const [expiresIn, setExpiresIn] = useState(null);
+
   return (
     <>
-    <TwitchAuth/>
+    <TwitchAuth setIsAuthenticated={setIsAuthenticated} 
+                isAuthenticated={isAuthenticated} 
+                setAccessToken={setAccessToken} 
+                accessToken={accessToken} 
+                setExpiresIn={setExpiresIn} 
+                expiresIn={expiresIn}/>
     {/* Client side routes */}
     <Routes>
       <Route path="/login" element={ <LoginForm setUser={setUser} user={user}/> } />
