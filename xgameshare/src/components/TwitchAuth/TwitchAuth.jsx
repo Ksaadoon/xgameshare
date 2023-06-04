@@ -116,7 +116,7 @@ const TwitchAuth = ({ setIsAuthenticated, isAuthenticated, setAccessToken, acces
 
     return (
         <div>
-            {accessToken ? (
+            {/* {accessToken ? (
                 <div>
                     <p>Access Token: {accessToken}</p>
                     <p>Expires In: {expiresIn}</p>
@@ -132,8 +132,8 @@ const TwitchAuth = ({ setIsAuthenticated, isAuthenticated, setAccessToken, acces
                         </div>
                     )}
                 </div>
-            )}
-            {/* Use the access token in your API requests */}
+            )} */}
+           
         </div>
     );
 
