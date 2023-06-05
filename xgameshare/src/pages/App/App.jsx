@@ -7,22 +7,31 @@ import HomePage from '../HomePage/HomePage';
 import SignupForm from '../../components/SignupForm/SignupForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import { useState } from 'react';
-import { getUser } from '../../services/users/users-service';
-import { auth } from '../../services/auth/twitch/twitch-auth-service';
+import { getUserToken } from '../../services/users/users-service';
+import { auth, getTwitchAccessToken ,getAccessTokenExpiresIn, isTokenExpiring } from '../../services/auth/twitch/twitch-auth-service';
 
 // import TwitchAuth from '../../components/TwitchAuth/TwitchAuth';
 
 
 export default function App() {
 
-  const [user, setUser] = useState(getUser());
-  const [twitchAccessToken, setTwitchAccessToken] = useState(null);
+  //Storing the user token at the App state level
+  const [user, setUser] = useState(getUserToken());
+
+  //Storing the Twich access token at the App state level
+  const [twitchAccessToken, setTwitchAccessToken] = useState(getTwitchAccessToken());
 
   useEffect(() => {
-    // Trigger the cascade of requests on component mount
-    const token = auth();
-    setTwitchAccessToken(token);
 
+    // Trigger the cascade of requests on component mount
+    const fetchData = async () => {
+        if (isTokenExpiring(getAccessTokenExpiresIn())) {
+          const token = await auth();
+          setTwitchAccessToken(token);
+        }
+    };
+
+    fetchData();
   }, []);
 
   /*
@@ -33,7 +42,7 @@ export default function App() {
 
   The new twitch authentication is now done in the backend with the twith-auth-service.
   */
- 
+
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   // const [accessToken, setAccessToken] = useState(null)
   // const [expiresIn, setExpiresIn] = useState(null);
@@ -50,7 +59,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginForm setUser={setUser} user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} user={user} />} />
-        <Route path="/" element={<HomePage setUser={setUser} user={user} />} />        
+        <Route path="/" element={<HomePage setUser={setUser} user={user} />} />
       </Routes>
     </>
   );

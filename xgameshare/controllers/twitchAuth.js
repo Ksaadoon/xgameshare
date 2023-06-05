@@ -39,10 +39,9 @@ async function auth(req, res) {
         const { access_token, expires_in } = await response.json();
 
         // Create JWT using the access_token and sign it with the secret key from twitch
-        const jwtToken = createJWT(access_token, expires_in);
-        //console.log("access_token" + jwtToken);
+        const jwtToken = createJWT(access_token, expires_in);       
         // Return the JWT as a response
-        res.json({ jwtToken });
+        return res.json(jwtToken);
 
     } catch (error) {
         console.error(error);

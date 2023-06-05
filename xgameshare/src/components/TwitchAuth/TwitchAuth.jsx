@@ -1,5 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
+/**********************************************************************************
+ * This component is obsolete as the authentication is now managed in the backend.
+ * Keeping it for historic purposes.
+ * 
+ ********************************************************************************/
+
 /**
  * The twitch API call for authentication returns:
         {

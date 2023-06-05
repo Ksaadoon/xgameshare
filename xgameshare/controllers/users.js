@@ -61,12 +61,19 @@ async function login(req, res) {
 // ------------------------ //
 
 // it returns a signed token for that user valid for 24h
+
+/**
+ * The resulting token is a string that consists of three (3) parts: 
+   the header,
+   the payload (which includes the user data and expiration time), 
+   and the signature. 
+ * 
+ */
 function createJWT(user) {
   return jwt.sign(
-    // extra data for the payload
-    { user },
-    process.env.XGAMESHARE_SECRET,
-    { expiresIn: '24h' }
+    { user },                        // Payload: Data to be included in the token
+    process.env.XGAMESHARE_SECRET,   // Secret key used for signing the token
+    { expiresIn: '24h' }             // Token expiration time
   );
 }
 

@@ -5,15 +5,16 @@ import { getToken } from '../send-request';
 
 const userTokenName = 'userToken';
 
-export async function signUp(userData, userTokenName) {
-    const token = await usersAPI.signUp(userData);
+export async function signUp(userData) {
+    const token = await usersAPI.signUp(userData, userTokenName);
     localStorage.setItem(userTokenName, token);
     return getUser(userTokenName);
 }
 
-export async function login(credentials, userTokenName) {
+export async function login(credentials) {
     // Delegate the fetch request to the users-api.js module.
-    const token = await usersAPI.login(credentials);
+    const token = await usersAPI.login(credentials, userTokenName);
+    console.log("setting " + userTokenName + " in localStorage with value: " + JSON.stringify(token));
     localStorage.setItem(userTokenName, token);
     return getUser(userTokenName);
   }
