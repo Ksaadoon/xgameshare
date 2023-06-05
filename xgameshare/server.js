@@ -38,6 +38,7 @@ app.use(express.json())
 // Put all API routes here (before the catch-all)
 //some routes here
 app.use('/env', require('./routes/env'));
+app.use('/api/auth/twitch', require('./routes/twitchAuth'));
 app.use('/api/users', require('./routes/users'));
 
 // Catch all - must be at the end of routes

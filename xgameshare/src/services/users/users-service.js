@@ -1,37 +1,31 @@
 //Provide user to react component needed; The service will call the user service api
 //usersAPI is going to be an object that contains all the functions described in the users-api file
 import * as usersAPI from './users-api';
+import { getToken } from '../send-request';
 
-export async function signUp(userData) {
+const userTokenName = 'userToken';
+
+export async function signUp(userData, userTokenName) {
     const token = await usersAPI.signUp(userData);
-    localStorage.setItem('token', token);
-    return getUser();
+    localStorage.setItem(userTokenName, token);
+    return getUser(userTokenName);
 }
 
-export async function login(credentials) {
-    // Delegate the AJAX request to the users-api.js
-    // module.
+export async function login(credentials, userTokenName) {
+    // Delegate the fetch request to the users-api.js module.
     const token = await usersAPI.login(credentials);
-    localStorage.setItem('token', token);
-    return getUser();
-  }
-
-export function getToken() {
-    // getItem will return null if the key does not exist
-    const token = localStorage.getItem('token');
-    if (!token) return null;
-    // Let's check if token has expired...
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    if (payload.exp < Date.now() / 1000) {
-      // Token has expired
-      localStorage.removeItem('token');
-      return null;
-    }
-    return token;
+    localStorage.setItem(userTokenName, token);
+    return getUser(userTokenName);
   }
   
-  export function getUser() {
-    const token = getToken();
+  //Trick to be able to call this in the App.jsx file without to hard code
+  //the 'userToke' value in it.
+  export function getUserToken() {
+    return getUser(userTokenName);
+  }
+
+  export function getUser(userTokenName) {
+    const token = getToken(userTokenName);
     return token ?
       JSON.parse(atob(token.split('.')[1])).user
       :
@@ -39,10 +33,9 @@ export function getToken() {
   }
   
   export function logOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem(userTokenName);
   }
-  
- 
+   
   export function checkToken() {
     return usersAPI.checkToken().then(dateStr => new Date(dateStr));
   }
