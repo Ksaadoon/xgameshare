@@ -9,8 +9,8 @@ import React, { useCallback, useState, useEffect } from 'react';
 /**
  * The twitch API call for authentication returns:
         {
-            "access_token": "j2fr55iqoz74qg5zwa0bc15o3m1jot",
-            "expires_in": 5412302,
+            "access_token": "xxxxx",
+            "expires_in": 123,
             "token_type": "bearer"
         }
  */
@@ -28,8 +28,8 @@ const TwitchAuth = ({ setIsAuthenticated, isAuthenticated, setAccessToken, acces
      it will returns for instance:
      {
         "TWITCH_AUTH_URL": "https://id.twitch.tv/oauth2/token",
-        "TWITCH_CLIENT_ID": "3vei7tcaokpacpb2m5a94lgkqdz0bu",
-        "TWITCH_CLIENT_SECRET": "jf1ssgf8t6rl0lxfauouvvdphu40tk"
+        "TWITCH_CLIENT_ID": "xxxxx",
+        "TWITCH_CLIENT_SECRET": "xxxxx"
         }
     */
     useEffect(() => {

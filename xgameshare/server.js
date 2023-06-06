@@ -1,55 +1,60 @@
-// ___________________
-// Dependencies
-// ___________________
 const path = require('path');
 const favicon = require('serve-favicon');
-const express = require('express')
+const express = require('express');
+const corsAnywhere = require('cors-anywhere');
 const logger = require('morgan');
 
-// It's very important to require dotenv before any other module
-// that depends upon the properties added to process.env 
 require('dotenv').config();
 
-// Make sure the express server is using port 3001 (instead 3000 (the default))
-// because the React server is already using port 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3001;
 
-const app = express()
+const app = express();
 
 // connect to the database with AFTER the config vars are processed
 require('./config/database');
 
-// ___________________
 // Middleware
-// ___________________
-// use morgan
-app.use(logger('dev'))
-// use public folder for st
-app.use(favicon(path.join(__dirname, 'build', 'favicon.ico'))); 
-// lets us use static files
+app.use(logger('dev'));
+app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
-// returns middleware that only parses JSON
-app.use(express.json())
+app.use(express.json());
 
+// Configure the CORS Anywhere proxy
+const corsProxy = corsAnywhere.createServer({
+  originWhitelist: [], // Allow all origins
+  requireHeader: ['Client-Id', 'Authorization'],
+  removeHeaders: []
+});
 
-//-----------------
-// ROUTES
-// ---------------
-// Put all API routes here (before the catch-all)
-//some routes here
+// Routes
 app.use('/env', require('./routes/env'));
 app.use('/api/auth/twitch', require('./routes/twitchAuth'));
 app.use('/api/users', require('./routes/users'));
 
-// Catch all - must be at the end of routes
-// A single "catch all" route is required to serve the index.html when any non-AJAX "API"
-// request is received by the Express app:
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// Add a route for the CORS proxy server
+// The app.all() method is used in the updated code example to handle all HTTP methods (GET, POST, PUT, DELETE, etc.) for the proxy route. 
+// app.use() only matches middleware for specific HTTP methods (e.g., app.use('/proxy', ...) would match GET, POST, PUT, and DELETE
+// const proxyPath = '/proxy'; // Example path for the proxy server
+// app.use(proxyPath, (req, res) => {
+//   req.method = req.method.toUpperCase(); // Set the method to match the original request
+//   req.url = req.url.replace(proxyPath, ''); // Remove the proxy path from the URL
+//   corsProxy.emit('request', req, res);
+// });
+
+// Add a route for the CORS proxy server
+app.all('/proxy/:proxyUrl*', (req, res) => {
+  req.method = req.method.toUpperCase(); // Set the method to match the original request
+  //req.url = req.url.replace(/^\/proxy\//, ''); // Remove the '/proxy/' prefix from the URL
+  req.url = req.url.replace('/proxy/', '/');
+  corsProxy.emit('request', req, res);
 });
 
-// ___________________
-// Listener
-// ___________________
-module.exports = app.listen(port, () => console.log('Running express server on port:' + port))
+// Catch-all route to serve index.html
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
+// Start both servers on the same port
+app.listen(port, () => {
+  console.log(`Express server and CORS Anywhere proxy server are running on port ${port}`);
+});

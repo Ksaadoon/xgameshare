@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import NavBarComponent from '../../components/NavBarComponent/NavBarComponent';
+import Games from '../../components/Games/Games';
 
 
 export default function HomePage({setUser, user}) {
@@ -14,7 +15,7 @@ export default function HomePage({setUser, user}) {
           </Row>
           <Row>
             <Col>          
-              <h1>Main Content</h1>
+              <Games/>
             </Col>
           </Row>
         </Container>

@@ -17,8 +17,8 @@ module.exports = {
  * 
  * example of the twitch authentication API call return in json format:
         {
-            "access_token": "j2fr55iqoz74qg5zwa0bc15o3m1jot",
-            "expires_in": 5412302,
+            "access_token": "xxx",
+            "expires_in": 12345,
             "token_type": "bearer"
         }
  */

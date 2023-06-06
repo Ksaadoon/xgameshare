@@ -6,7 +6,7 @@ const NavbarComponent = ({setUser, user}) => {
     
     
   function handleLogOut() {
-    // Remove token using the user service
+    // Remove the user token from local storage
     logOut();
     // Update user state in App
     setUser(null);

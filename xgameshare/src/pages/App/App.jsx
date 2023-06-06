@@ -8,29 +8,27 @@ import SignupForm from '../../components/SignupForm/SignupForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import { useState } from 'react';
 import { getUserToken } from '../../services/users/users-service';
-import { auth, getTwitchAccessToken ,getAccessTokenExpiresIn, isTokenExpiring } from '../../services/auth/twitch/twitch-auth-service';
+import { auth, getAccessTokenExpiresIn, isTokenExpiring } from '../../services/auth/twitch/twitch-auth-service';
 
 // import TwitchAuth from '../../components/TwitchAuth/TwitchAuth';
 
 
 export default function App() {
 
-  //Storing the user token at the App state level
+  //The user token is securely stored in the local storage
+  //Storing the user token securely in local storage and 
+  //then using it to set the initial state value using useState is generally considered safe.
   const [user, setUser] = useState(getUserToken());
-
-  //Storing the Twich access token at the App state level
-  const [twitchAccessToken, setTwitchAccessToken] = useState(getTwitchAccessToken());
 
   useEffect(() => {
 
-    // Trigger the cascade of requests on component mount
+    // Trigger call get an Twitch access token only once at loading (empty dependency array)
+    // and if the token is about to expired. The access token is securely stored in local storage.
     const fetchData = async () => {
         if (isTokenExpiring(getAccessTokenExpiresIn())) {
-          const token = await auth();
-          setTwitchAccessToken(token);
+          return await auth();
         }
     };
-
     fetchData();
   }, []);
 

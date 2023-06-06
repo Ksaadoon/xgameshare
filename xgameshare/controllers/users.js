@@ -38,12 +38,12 @@ async function create(req, res) {
 /*
  * Finds a user in the dabase based on an email address
  * check the password provided in the request body with the one in database for that user
- * create a new authentication token if all good
+ * create a new authentication token if all good and returns it
  * @param {*} req 
  * @param {*} res 
  */
 async function login(req, res) {
-  try {
+   try {
     const user = await User.findOne({email: req.body.email});
     if (!user) throw new Error();
     const match = await bcrypt.compare(req.body.password, user.password);
