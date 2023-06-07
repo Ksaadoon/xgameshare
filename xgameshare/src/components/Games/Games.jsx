@@ -7,9 +7,11 @@ const Games = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchGames = async () => {
+    
+    const fetchGames = async () => {      
       try {
         const res = await igdbService.listGames();
+        console.log(res); // Log the response object to check its structure
         setGames(res); // Update the games state with the response data
       } catch (error) {
         setError('Failed to fetch games'); // Update the error state with an error message
@@ -18,8 +20,6 @@ const Games = () => {
 
     fetchGames();
   }, []);
-
-
 
   return (
     <div>

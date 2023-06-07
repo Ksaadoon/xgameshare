@@ -1,12 +1,10 @@
 const path = require('path');
 const favicon = require('serve-favicon');
 const express = require('express');
-const corsAnywhere = require('cors-anywhere');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const logger = require('morgan');
 
 require('dotenv').config();
-
-const port = process.env.PORT || 3001;
 
 const app = express();
 
@@ -14,47 +12,54 @@ const app = express();
 require('./config/database');
 
 // Middleware
-app.use(logger('dev'));
+app.use(logger('combined'));
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
 
-// Configure the CORS Anywhere proxy
-const corsProxy = corsAnywhere.createServer({
-  originWhitelist: [], // Allow all origins
-  requireHeader: ['origin', 'x-requested-with', 'client-id', 'authorization'],
-  removeHeaders: ['cookie', 'cookie2'],
+// Routes
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Client-ID');
+  next();
 });
 
-// Routes
-app.use('/env', require('./routes/env'));
+
+const proxyOptionsForIgdb = {
+  target: process.env.REACT_APP_IGDB_BASE_URL,
+  headers: {
+    'Client-ID': process.env.TWITCH_CLIENT_ID,
+  },
+  changeOrigin: true,
+  secure: true,
+  pathRewrite: {
+    [`^${process.env.REACT_APP_IGDB_PROXY_BASE_PATH}`]: '',
+  },
+  onProxyRes: function (proxyRes, req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Client-ID');
+  },
+}
+const proxyIgdb = createProxyMiddleware(proxyOptionsForIgdb);
+app.use(`${process.env.REACT_APP_IGDB_PROXY_BASE_PATH}`, proxyIgdb);
+
 app.use('/api/auth/twitch', require('./routes/twitchAuth'));
 app.use('/api/users', require('./routes/users'));
 
-// Add a route for the CORS proxy server
-// The app.all() method is used in the updated code example to handle all HTTP methods (GET, POST, PUT, DELETE, etc.) for the proxy route. 
-// app.use() only matches middleware for specific HTTP methods (e.g., app.use('/proxy', ...) would match GET, POST, PUT, and DELETE
-// const proxyPath = '/proxy'; // Example path for the proxy server
-// app.use(proxyPath, (req, res) => {
-//   req.method = req.method.toUpperCase(); // Set the method to match the original request
-//   req.url = req.url.replace(proxyPath, ''); // Remove the proxy path from the URL
-//   corsProxy.emit('request', req, res);
-// });
-
-// Add a route for the CORS proxy server
-app.all('/proxy/:proxyUrl*', (req, res) => {
-  req.method = req.method.toUpperCase(); // Set the method to match the original request
-  //req.url = req.url.replace(/^\/proxy\//, ''); // Remove the '/proxy/' prefix from the URL
-  req.url = req.url.replace('/proxy/', '/');
-  corsProxy.emit('request', req, res);
-});
-
-// Catch-all route to serve index.html
-app.get('/*', function(req, res) {
+// Catch-all route to serve index.html - must be defined at the end of all the routes.
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-// Start both servers on the same port
-app.listen(port, () => {
-  console.log(`Express server and CORS Anywhere proxy server are running on port ${port}`);
-});
+// ____________
+// Listeners
+// ____________
+
+const host = process.env.REACT_APP_LOCALHOST;
+const port = process.env.REACT_APP_SERVER_PORT;
+
+//the order in listen(port, host) is important otherwise getting address already in use!
+module.exports = app.listen(port, host, () => console.log('Running express server and CORS proxies at: '  + host + ":" + port));
