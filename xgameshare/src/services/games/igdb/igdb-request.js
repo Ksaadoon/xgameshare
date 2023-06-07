@@ -6,9 +6,11 @@ export async function sendIgdbRequest(url, method = 'GET', tokenName, payload = 
 
   const requestOptions = { method };
 
+  //IGDB API pass the payload as raw data so it it not json.
+  //The Content-Type header is set to text/plain to indicate that the payload is not JSON but plain text.
   if (payload) {
-    requestOptions.headers = { 'Content-Type': 'application/json' };
-    requestOptions.body = JSON.stringify(payload);
+    requestOptions.headers = { 'Content-Type': 'text/plain ' };
+    requestOptions.body = payload;
   }
 
   const token = getAccessToken(tokenName);

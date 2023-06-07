@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import * as igdbService from '../../services/games/igdb/igdb-service';
 
+
 const Games = () => {
 
   const [games, setGames] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    
-    const fetchGames = async () => {      
+
+    const fetchGames = async () => {
       try {
-        const res = await igdbService.listGames();
+
+        const payload = "fields name; limit 30;";
+        const res = await igdbService.listGames(payload);
         console.log(res); // Log the response object to check its structure
         setGames(res); // Update the games state with the response data
       } catch (error) {
@@ -27,7 +30,7 @@ const Games = () => {
         // Render the list of games
         <ul>
           {games.map((game) => (
-            <li key={game.id}>{game.id}</li>
+            <li key={game.id}>{game.name}</li>
           ))}
         </ul>
       ) : error ? (
