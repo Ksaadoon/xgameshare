@@ -22,8 +22,8 @@ app.use(express.json());
 // Configure the CORS Anywhere proxy
 const corsProxy = corsAnywhere.createServer({
   originWhitelist: [], // Allow all origins
-  requireHeader: ['Client-Id', 'Authorization'],
-  removeHeaders: []
+  requireHeader: ['origin', 'x-requested-with', 'client-id', 'authorization'],
+  removeHeaders: ['cookie', 'cookie2'],
 });
 
 // Routes
