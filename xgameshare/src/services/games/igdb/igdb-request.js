@@ -37,6 +37,7 @@ const proxiedUrl = `${corsProxyUrl}${proxyPath}/${encodedUrl}`;
 
 const res = await fetch(proxiedUrl, requestOptions);
 // res.ok will be false if the status code set to 4xx in the controller action
+console.log("res: " + JSON.stringify(res));
 if (res.ok) return await res.json();
 
 throw new Error('Bad Request');
