@@ -1,9 +1,15 @@
 import useGames from '../../hooks/useGames';
 import PropTypes from 'prop-types';
 
-const Games = ( {selectedGenre} ) => {
+/*
+    The Games component is receiving a prop : selectedGenre 
+    As opposed to the prop passed to the GameGenreList component (which was a function)
+    This prop is just a object.
+*/
+const Games = ( {selectedGenre, selectedPlatform}) => {
 
-  const { data: games, error, loading} = useGames(selectedGenre);
+  // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
+  const { data: games, error, loading} = useGames(selectedGenre, selectedPlatform);
 
   return (
     <div>
@@ -28,8 +34,12 @@ const Games = ( {selectedGenre} ) => {
   );
 };
 
+/**
+ * Definition of the prop being passed on line 9: This prop is a object. 
+ */
 Games.propTypes = {
   selectedGenre: PropTypes.object,
+  selectedPlatform: PropTypes.object,
 };
 
 export default Games;

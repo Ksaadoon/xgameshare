@@ -1,13 +1,23 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown';
 import usePlatforms from '../../hooks/usePlatforms';
+import PropTypes from 'prop-types';
 
-const PlatformSelector = () => {
+/*
+    The platform selector should notify the HomePage component.
+    The HomePage component is holding a state variable named selectedPlatform keeping track of the platform selection.
+    The selectedPlatform state variable will be used to be passed on to the Games component for filtering
+    Games based on the platform.
+    
+    onSelectPlatform is a prop function!
+*/
+const PlatformSelector = ({ onSelectPlatform }) => {
 
-    const { data: platforms, error, loading } = usePlatforms();
+    const { data: platforms, error } = usePlatforms();
+
 
     //not rendering the component if there is an error
-    if(error) return null;
+    if (error) return null;
 
     return (
 
@@ -15,12 +25,27 @@ const PlatformSelector = () => {
             <Dropdown.Toggle variant="primary" id="dropdown-toggle">
                 Platform
             </Dropdown.Toggle>
-            <Dropdown.Menu>               
-                { platforms.map(platform => <Dropdown.Item key={platform.id}>{platform.name}</Dropdown.Item>)}
+            <Dropdown.Menu>
+                {/* () => onSelectPlatform(platform): 
+                    this is a function calling the prop function onSelectedPlatform.
+                    click on a platform from the dropdown, it will notifies the HomePage component.
+                It is a prop function!
+              */}              
+                {platforms.map(platform => 
+                    <Dropdown.Item onClick={() => onSelectPlatform(platform)} key={platform.id}>
+                        {platform.name}
+                    </Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
 
     )
 }
+
+
+//when a platform is selected, the homepage will be notified with this function (func)
+//This is a prop function!
+PlatformSelector.propTypes = {
+    onSelectPlatform: PropTypes.func,
+};
 
 export default PlatformSelector

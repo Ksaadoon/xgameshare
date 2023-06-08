@@ -1,25 +1,20 @@
 import { useEffect, useState } from 'react';
 import * as igdbService from '../services/games/igdb/igdb-service';
+import usePayload from './usePayload';
 
-const useData = (endpoint, selectedGenre) => {
+const useData = (endpoint, selectedGenre, selectedPlatform) => {
 
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const abortController = new AbortController();
 
-    const setPayload = (selectedGenre) => {
-        let payload = "fields name; limit 30;";
-        if (selectedGenre) {
-            payload += ` where genres = [${selectedGenre}];`;
-        }
-        return payload;
-    }
+    const payload = usePayload(selectedGenre, selectedPlatform);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await igdbService.listData(endpoint, setPayload(selectedGenre), abortController.signal);
+                const res = await igdbService.listData(endpoint, payload, abortController.signal);
                 setData(res); // Update the games state with the response data
                 setLoading(false); // Set loading to false after successful fetch
 
@@ -40,7 +35,7 @@ const useData = (endpoint, selectedGenre) => {
             abortController.abort();
         };
 
-    }, [endpoint, selectedGenre]);
+    }, [endpoint, selectedGenre, selectedPlatform]);
 
     /*
         To ensure that the setPayload function is called to update the payload when the selectedGenre prop changes, 

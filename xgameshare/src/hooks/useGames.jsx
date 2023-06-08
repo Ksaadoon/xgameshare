@@ -1,6 +1,6 @@
 import useData from "./useData";
 
-const useGames = (selectedGenre) => {
-    return useData("/games", selectedGenre?.id);
+const useGames = (selectedGenre, selectedPlatform) => {
+    return useData("/games", selectedGenre?.id, selectedPlatform?.id);
 }
 export default useGames
