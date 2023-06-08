@@ -1,5 +1,6 @@
 import React from 'react'
 import useGenres from '../../hooks/useGenres'
+import { Button } from 'react-bootstrap';
 
 const GameGenresList = () => {
 
@@ -7,7 +8,13 @@ const GameGenresList = () => {
 
     return (
         <ul>
-            {genres.map(genres => <li key={genres.id}>{genres.name}</li>)}
+            {genres.map(genre => (
+                <li key={genre.id}>
+                     <Button onClick={() => console.log(genre)} variant="link">
+                        {genre.name}
+                    </Button>
+                </li>
+            ))}
         </ul>
     )
 }
