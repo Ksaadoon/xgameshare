@@ -9,6 +9,7 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 import { useState } from 'react';
 import { getUserToken } from '../../services/users/users-service';
 import { auth, getAccessTokenExpiresIn, isTokenExpiring } from '../../services/auth/twitch/twitch-auth-service';
+import InviteFriendForm from '../../components/ContactForm/ContactForm';
 
 // import TwitchAuth from '../../components/TwitchAuth/TwitchAuth';
 
@@ -58,6 +59,7 @@ export default function App() {
         <Route path="/login" element={<LoginForm setUser={setUser} user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} user={user} />} />
         <Route path="/" element={<HomePage setUser={setUser} user={user} />} />
+        <Route path="/invite" element={<InviteFriendForm setUser={setUser} user={user}/>} />
       </Routes>
     </>
   );

@@ -32,7 +32,19 @@ const NavbarComponent = ({setUser, user}) => {
         <Nav className="mr-auto">
           {/* when you have multiple elements in a conditional rendering, they need to be wrapped inside a single parent element. 
            thus wrapping the elements inside a <React.Fragment> (<>) or a <div> */}
-          { user ? (<Nav.Link href="/" onClick={handleLogOut}>Log Out</Nav.Link> ) : ( <><Nav.Link href="/login">Log In</Nav.Link> <Nav.Link href="/signup">Sign Up</Nav.Link></> ) }          
+          { user ? 
+            (
+              <>
+              <Nav.Link href="/invite">Invite</Nav.Link> 
+              <Nav.Link href="/" onClick={handleLogOut}>Log Out</Nav.Link> 
+              </>
+            ) 
+          : ( 
+              <>
+              <Nav.Link href="/login">Log In</Nav.Link> 
+              <Nav.Link href="/signup">Sign Up</Nav.Link>
+              </> 
+            ) }          
         </Nav>
       </Navbar.Collapse>
     </Navbar>

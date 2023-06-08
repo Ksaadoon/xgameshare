@@ -1,47 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import * as igdbService from '../../services/games/igdb/igdb-service';
-
+import useGames from '../../hooks/useGames';
 
 const Games = () => {
 
-  const [games, setGames] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-
-    const fetchGames = async () => {
-      try {
-
-        const payload = "fields name; limit 30;";
-        const res = await igdbService.listGames(payload);
-        console.log(res); // Log the response object to check its structure
-        setGames(res); // Update the games state with the response data
-      } catch (error) {
-        setError('Failed to fetch games'); // Update the error state with an error message
-      }
-    };
-
-    fetchGames();
-  }, []);
+  const { games, error, loading} = useGames();
 
   return (
     <div>
-      {games.length > 0 ? (
+      {loading ? (
+        // Render a loading indicator or placeholder
+        <div>Loading games...</div>
+      ) : error ? (
+        // Render the error message
+        <div>{error}</div>
+      ) : games.length > 0 ? (
         // Render the list of games
         <ul>
           {games.map((game) => (
             <li key={game.id}>{game.name}</li>
           ))}
         </ul>
-      ) : error ? (
-        // Render the error message
-        <div>{error}</div>
       ) : (
-        // Render a loading indicator or placeholder
-        <div>Loading games...</div>
+        // Render a message when there are no games
+        <div>No games found</div>
       )}
     </div>
   );
-}
+};
 
 export default Games;
