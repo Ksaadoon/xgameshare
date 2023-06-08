@@ -1,8 +1,9 @@
 import useGames from '../../hooks/useGames';
+import PropTypes from 'prop-types';
 
-const Games = () => {
+const Games = ( {selectedGenre} ) => {
 
-  const { data: games, error, loading} = useGames();
+  const { data: games, error, loading} = useGames(selectedGenre);
 
   return (
     <div>
@@ -25,6 +26,10 @@ const Games = () => {
       )}
     </div>
   );
+};
+
+Games.propTypes = {
+  selectedGenre: PropTypes.object,
 };
 
 export default Games;

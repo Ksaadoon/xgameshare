@@ -21,6 +21,8 @@ export default function App() {
   //then using it to set the initial state value using useState is generally considered safe.
   const [user, setUser] = useState(getUserToken());
 
+ 
+
   useEffect(() => {
 
     // Trigger call get an Twitch access token only once at loading (empty dependency array)
