@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
     As opposed to the prop passed to the GameGenreList component (which was a function)
     This prop is just a object.
 */
-const Games = ( {selectedGenre, selectedPlatform}) => {
+const Games = ( {selectedGenre, selectedPlatform, searchText}) => {
 
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
-  const { data: games, error, loading} = useGames(selectedGenre, selectedPlatform);
+  const { data: games, error, loading} = useGames(selectedGenre, selectedPlatform, searchText);
 
   return (
     <div>
@@ -40,6 +40,7 @@ const Games = ( {selectedGenre, selectedPlatform}) => {
 Games.propTypes = {
   selectedGenre: PropTypes.object,
   selectedPlatform: PropTypes.object,
+  searchText: PropTypes.string,
 };
 
 export default Games;

@@ -7,7 +7,9 @@ import { useState } from 'react';
 import PlatformSelector from '../../components/Selectors/PlatformSelector';
 import SortSelector from '../../components/Selectors/SortSelector';
 
+
 export default function HomePage({ setUser, user }) {
+
 
   /* To display the list of games based on a genre selected we have to share a state between those 2 components.
 
@@ -32,17 +34,22 @@ export default function HomePage({ setUser, user }) {
 
   const [selectedPlatform, setSelectedPlatform] = useState(null);
 
+  const [searchText, setSearchText] = useState(null);
 
   return (
     <>
       <Container>
         <Row>
           <Col>
-            <NavBarComponent setUser={setUser} user={user} />
+            <NavBarComponent setUser={setUser} user={user} onSearch={(searchText) => setSearchText(searchText)}/>
           </Col>
         </Row>
         <Row>
           <Col>
+            {/* (platform) => setSelectedPlatform(platform): 
+                    this is a function that takes a platform as parameter and calls the state method setSelectedPlatform.
+                It is a prop function!
+              */}
             <PlatformSelector onSelectPlatform={(platform) => setSelectedPlatform(platform)}/>
             {/* (genre) => setSelectedGenre(genre): 
                     this is a function that takes a genre as parameter and calls the state method setSelectedGenre.
@@ -56,9 +63,10 @@ export default function HomePage({ setUser, user }) {
           <Col>
             {/* We need to pass the selected genre to the GameComponent so it can be passed to the backend 
                 while fetching the games.So we are passing a prop to the Games component.
-                It is a prop object!
+                It is a prop object! (same thing with selectedPlatorm)
+                searchValue is a prop string
              */}
-            <Games selectedGenre={selectedGenre} selectedPlatform={selectedPlatform}/>
+            <Games selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} searchText={searchText} />           
           </Col>
         </Row>
       </Container>

@@ -11,6 +11,7 @@ import { getUserToken } from '../../services/users/users-service';
 import { auth, getAccessTokenExpiresIn, isTokenExpiring } from '../../services/auth/twitch/twitch-auth-service';
 import InviteFriendForm from '../../components/ContactForm/ContactForm';
 
+
 // import TwitchAuth from '../../components/TwitchAuth/TwitchAuth';
 
 
@@ -21,16 +22,16 @@ export default function App() {
   //then using it to set the initial state value using useState is generally considered safe.
   const [user, setUser] = useState(getUserToken());
 
- 
+
 
   useEffect(() => {
 
     // Trigger call get an Twitch access token only once at loading (empty dependency array)
     // and if the token is about to expired. The access token is securely stored in local storage.
     const fetchData = async () => {
-        if (isTokenExpiring(getAccessTokenExpiresIn())) {
-          return await auth();
-        }
+      if (isTokenExpiring(getAccessTokenExpiresIn())) {
+        return await auth();
+      }
     };
     fetchData();
   }, []);
@@ -57,11 +58,12 @@ export default function App() {
                 setExpiresIn={setExpiresIn} 
                 expiresIn={expiresIn}/> */}
       {/* Client side routes */}
+      
       <Routes>
         <Route path="/login" element={<LoginForm setUser={setUser} user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} user={user} />} />
         <Route path="/" element={<HomePage setUser={setUser} user={user} />} />
-        <Route path="/invite" element={<InviteFriendForm setUser={setUser} user={user}/>} />
+        <Route path="/invite" element={<InviteFriendForm setUser={setUser} user={user} />} />
       </Routes>
     </>
   );
