@@ -5,6 +5,7 @@ import Games from '../../components/Games/Games';
 import GameGenresList from '../../components/Games/GameGenresList';
 import { useState } from 'react';
 import PlatformSelector from '../../components/Selectors/PlatformSelector';
+import SortSelector from '../../components/Selectors/SortSelector';
 
 export default function HomePage({ setUser, user }) {
 
@@ -48,6 +49,9 @@ export default function HomePage({ setUser, user }) {
                 It is a prop function!
               */}
             <GameGenresList onSelectGenre={(genre) => setSelectedGenre(genre)} />
+          </Col>
+          <Col>
+              <SortSelector/>
           </Col>
           <Col>
             {/* We need to pass the selected genre to the GameComponent so it can be passed to the backend 
