@@ -2,7 +2,7 @@ import useGames from '../../hooks/useGames';
 
 const Games = () => {
 
-  const { games, error, loading} = useGames();
+  const { data: games, error, loading} = useGames();
 
   return (
     <div>
@@ -12,7 +12,7 @@ const Games = () => {
       ) : error ? (
         // Render the error message
         <div>{error}</div>
-      ) : games.length > 0 ? (
+      ) : games && games.length > 0 ? (
         // Render the list of games
         <ul>
           {games.map((game) => (
