@@ -1,6 +1,7 @@
 import './NavBarComponent.css';
 import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 import { logOut } from '../../services/users/users-service';
+import SearchComponent from '../SearchComponent/SearchComponent';
 
 const NavbarComponent = ({setUser, user}) => {
     
@@ -20,15 +21,7 @@ const NavbarComponent = ({setUser, user}) => {
         <Nav className="mr-auto">
           <Nav.Link href="/">Dashboard</Nav.Link>         
         </Nav>
-        <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-        </Form>
+        <SearchComponent/>
         <Nav className="mr-auto">
           {/* when you have multiple elements in a conditional rendering, they need to be wrapped inside a single parent element. 
            thus wrapping the elements inside a <React.Fragment> (<>) or a <div> */}
