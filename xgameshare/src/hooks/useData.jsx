@@ -14,7 +14,7 @@ const useData = (endpoint, selectedGenre, selectedPlatform, searchText) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let res = await igdbService.listData(endpoint, payload, abortController.signal);
+                let res = await igdbService.getData(endpoint, payload, abortController.signal);
                 setData(res);
                 setLoading(false); // Set loading to false after successful fetch              
 

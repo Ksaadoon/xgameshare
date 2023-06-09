@@ -1,12 +1,14 @@
 import useGames from '../../hooks/useGames';
 import PropTypes from 'prop-types';
+import GameCardContainer from './GameCardContainer';
+import GameCard from './GameCard';
 
 /*
     The Games component is receiving a prop : selectedGenre 
     As opposed to the prop passed to the GameGenreList component (which was a function)
     This prop is just a object.
 */
-const Games = ( {selectedGenre, selectedPlatform, searchText}) => {
+const GameGrid = ( {selectedGenre, selectedPlatform, searchText}) => {
 
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
   const { data: games, error, loading} = useGames(selectedGenre, selectedPlatform, searchText);
@@ -21,11 +23,9 @@ const Games = ( {selectedGenre, selectedPlatform, searchText}) => {
         <div>{error}</div>
       ) : games && games.length > 0 ? (
         // Render the list of games
-        <ul>
-          {games.map((game) => (
-            <li key={game.id}>{game.name}</li>
-          ))}
-        </ul>
+      
+          games.map((game) => (<GameCard game={game}/>))
+      
       ) : (
         // Render a message when there are no games
         <div>No games found</div>
@@ -35,12 +35,14 @@ const Games = ( {selectedGenre, selectedPlatform, searchText}) => {
 };
 
 /**
- * Definition of the prop being passed on line 9: This prop is a object. 
+ * Definition of the prop being passed on line 9: This prop is a object.
+ * This prop contains all the games json data returns by the IGDB API.
  */
-Games.propTypes = {
+GameGrid.propTypes = {
   selectedGenre: PropTypes.object,
   selectedPlatform: PropTypes.object,
   searchText: PropTypes.string,
 };
 
-export default Games;
+
+export default GameGrid;

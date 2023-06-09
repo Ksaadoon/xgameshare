@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import NavBarComponent from '../../components/NavBarComponent/NavBarComponent';
-import Games from '../../components/Games/Games';
-import GameGenresList from '../../components/Games/GameGenresList';
+import GameGenres from '../../components/Games/GameGenres';
+import GameGrid from '../../components/Games/GameGrid';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlatformSelector from '../../components/Selectors/PlatformSelector';
@@ -56,7 +56,7 @@ export default function HomePage({ setUser, user }) {
                     this is a anonymous function that takes a genre as parameter and calls the state method setSelectedGenre.
                 It is a prop function!
               */}
-              <GameGenresList onSelectGenre={(genre) => setSelectedGenre(genre)} />
+              <GameGenres onSelectGenre={(genre) => setSelectedGenre(genre)} />
             </Col>
             <Col md={9}>
               <Row>
@@ -76,7 +76,7 @@ export default function HomePage({ setUser, user }) {
              */}
                 </Col>
               </Row>
-              <Games selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} sortOrderSelection={sortOrderSelection} searchText={searchText} />
+              <GameGrid selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} sortOrderSelection={sortOrderSelection} searchText={searchText} />
             </Col>
           </Row>
         </Container>

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 /*
     The GameGenresList component is receiving a prop : onSelectGenre
 */
-const GameGenresList = ({ onSelectGenre }) => {
+const GameGenres = ({ onSelectGenre }) => {
 
     const { data: genres } = useGenres();
  
@@ -37,8 +37,8 @@ const GameGenresList = ({ onSelectGenre }) => {
     The prop is passed as argument on line 6.
 
 */
-GameGenresList.propTypes = {
+GameGenres.propTypes = {
     onSelectGenre: PropTypes.func.isRequired,
   };
 
-export default GameGenresList
+export default GameGenres
