@@ -9,7 +9,7 @@ const usePayload = (endpoint, selectedGenre, selectedPlatform, searchText) => {
     payload += ";"
   }
 
-  payload += "limit 1;"
+  payload += "limit 100;"
 
   if (selectedGenre || selectedPlatform || searchText ) {
     
