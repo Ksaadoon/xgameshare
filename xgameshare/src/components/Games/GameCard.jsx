@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Card, Button} from 'react-bootstrap';
-import * as igdbService from '../../services/games/igdb/igdb-service';
 import "./Game.css";
-import backupImage from '../../assets/background.jpg'
+import imageplaceholder from '../../assets/imageplaceholder.webp';
+import getCroppedImageUrl from '../../services/games/igdb/images-url';
 
 const GameCard = ({game}) => {
 
    return (
     <Card>
-        <Card.Img variant="top" src={game.cover?.url|| backupImage}/>
+        <Card.Img variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder}/>
         <Card.Body>
         <Card.Title>{game.name}</Card.Title>
         <Card.Text>

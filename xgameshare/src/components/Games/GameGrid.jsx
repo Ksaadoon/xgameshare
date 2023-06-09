@@ -2,6 +2,7 @@ import useGames from '../../hooks/useGames';
 import PropTypes from 'prop-types';
 import GameCardContainer from './GameCardContainer';
 import GameCard from './GameCard';
+import { Container, Row, Col } from 'react-bootstrap';
 
 /*
     The Games component is receiving a prop : selectedGenre 
@@ -14,7 +15,10 @@ const GameGrid = ( {selectedGenre, selectedPlatform, searchText}) => {
   const { data: games, error, loading} = useGames(selectedGenre, selectedPlatform, searchText);
 
   return (
-    <div>
+    <Container>
+      <Row columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+      padding="10px"
+      spacing={6}>
       {loading ? (
         // Render a loading indicator or placeholder
         <div>Loading games...</div>
@@ -22,15 +26,15 @@ const GameGrid = ( {selectedGenre, selectedPlatform, searchText}) => {
         // Render the error message
         <div>{error}</div>
       ) : games && games.length > 0 ? (
-        // Render the list of games
-      
-          games.map((game) => (<GameCard game={game}/>))
+          // Render the list of games      
+          games.map((game) => (<GameCard key={game.id} game={game}/>))
       
       ) : (
         // Render a message when there are no games
         <div>No games found</div>
       )}
-    </div>
+      </Row>
+    </Container>
   );
 };
 
