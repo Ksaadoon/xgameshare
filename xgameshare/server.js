@@ -45,29 +45,9 @@ const proxyOptionsForIgdb = {
 }
 const proxyIgdb_DATA = createProxyMiddleware(proxyOptionsForIgdb);
 
-//PROXY FOR IGDB IMAGES
-const proxyOptionsForIgdbImage = {
-  target: process.env.REACT_APP_IGDB_BASE_URL_IMAGE,
-  headers: {
-    'Client-ID': process.env.TWITCH_CLIENT_ID,
-  },
-  changeOrigin: true,
-  secure: true,
-  pathRewrite: {
-    [`^${process.env.REACT_APP_IGDB_PROXY_BASE_PATH_IMAGE}`]: '',
-  },
-  onProxyRes: function (proxyRes, req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Client-ID');
-  },
-}
-const proxyIgdb_IMAGE = createProxyMiddleware(proxyOptionsForIgdbImage);
-
-
 
 app.use(`${process.env.REACT_APP_IGDB_PROXY_BASE_PATH_DATA}`, proxyIgdb_DATA);
-app.use(`${process.env.REACT_APP_IGDB_PROXY_BASE_PATH_IMAGE}`, proxyIgdb_IMAGE);
+//app.use(`${process.env.REACT_APP_IGDB_PROXY_BASE_PATH_IMAGE}`, proxyIgdb_IMAGE);
 
 app.use('/api/auth/twitch', require('./routes/twitchAuth'));
 app.use('/api/users', require('./routes/users'));

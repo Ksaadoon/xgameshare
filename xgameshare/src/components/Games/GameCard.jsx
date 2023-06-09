@@ -8,13 +8,9 @@ const GameCard = ({game}) => {
 
    return (
     <Card>
-        <Card.Img variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder}/>
+        <Card.Img className="card-image" variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder}/>
         <Card.Body>
-        <Card.Title>{game.name}</Card.Title>
-        <Card.Text>
-          {game.summary}
-          
-        </Card.Text>
+        <Card.Title>{game.name}</Card.Title>       
         <Button variant="primary">add</Button>
       </Card.Body>
     </Card>

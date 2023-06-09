@@ -6,3 +6,8 @@
     padding: auto;
 
 }
+
+.card-image {
+    width: 150px;
+    height: 200px;
+}

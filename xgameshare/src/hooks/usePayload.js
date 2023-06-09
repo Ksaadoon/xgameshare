@@ -5,21 +5,23 @@ const usePayload = (endpoint, selectedGenre, selectedPlatform, searchText) => {
 
   if (endpoint.startsWith("/games")) {
     payload += " , cover, cover.url, platforms, aggregated_rating, first_release_date, created_at, genres, summary;";
+    payload += " where cover!=null & cover.url!=null ";
   } else {
     payload += ";"
   }
 
-  payload += "limit 100;"
+  
+  
 
   if (selectedGenre || selectedPlatform || searchText ) {
     
 
     if (searchText) {
       //https://api-docs.igdb.com/#filters example: where name ~ *"the"*;;
-      payload += " where name ~ *\"" + searchText + "\"*;";   
+      payload += " &  name ~ *\"" + searchText + "\"*;";   
 
     } else {
-      payload += " where cover.url!=null ";
+      
 
       if (selectedGenre) {
         payload += `  & genres = [${selectedGenre}]`;
@@ -33,7 +35,10 @@ const usePayload = (endpoint, selectedGenre, selectedPlatform, searchText) => {
     // if (sortOrder) {
     //   payload += `sort ${sortOrder} desc;`;
     // }
+  } else {
+    payload+= ";"
   }
+  console.log(payload);
   return payload;
 }
 
