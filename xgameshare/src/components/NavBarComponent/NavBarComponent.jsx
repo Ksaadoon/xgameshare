@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { logOut } from '../../services/users/users-service';
 import SearchComponent from '../SearchComponent/SearchComponent';
 
-const NavbarComponent = ({ setUser, user, onSearch}) => {
+const NavbarComponent = ({ setUser, user, onSearch, clearSearchText}) => {
 
   function handleLogOut() {
     // Remove the user token from local storage
     logOut();
     // Update user state in App
+    clearSearchText();
     setUser(null);
   }
 
@@ -21,7 +22,7 @@ const NavbarComponent = ({ setUser, user, onSearch}) => {
         <Nav className="mr-auto">
           <Nav.Link href="/">Dashboard</Nav.Link>
         </Nav>
-        <SearchComponent onSearch={onSearch}/>
+        <SearchComponent onSearch={onSearch} clearSearchText={clearSearchText}/>
         <Nav className="mr-auto">
           {/* when you have multiple elements in a conditional rendering, they need to be wrapped inside a single parent element. 
            thus wrapping the elements inside a <React.Fragment> (<>) or a <div> */}
@@ -46,6 +47,7 @@ const NavbarComponent = ({ setUser, user, onSearch}) => {
 
 NavbarComponent.propTypes = {
   onSearch: PropTypes.func,
+  clearSearchText: PropTypes.func,
 };
 
 

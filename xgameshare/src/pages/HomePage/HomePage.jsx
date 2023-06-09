@@ -4,6 +4,7 @@ import NavBarComponent from '../../components/NavBarComponent/NavBarComponent';
 import Games from '../../components/Games/Games';
 import GameGenresList from '../../components/Games/GameGenresList';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import PlatformSelector from '../../components/Selectors/PlatformSelector';
 import SortSelector from '../../components/Selectors/SortSelector';
 
@@ -35,6 +36,10 @@ export default function HomePage({ setUser, user }) {
   const [selectedPlatform, setSelectedPlatform] = useState(null);
 
   const [searchText, setSearchText] = useState(null);
+
+  const clearSearchText = () => {
+    setSearchText(''); // Clear the state variable searchText
+  };
   
   const [sortOrderSelection, setSortOrderSelection] = useState('');
 
@@ -42,7 +47,7 @@ export default function HomePage({ setUser, user }) {
   return (
     <>
       <div className='homepage'>
-        <NavBarComponent setUser={setUser} user={user} onSearch={(searchText) => setSearchText(searchText)} />
+        <NavBarComponent setUser={setUser} user={user} onSearch={(searchText) => setSearchText(searchText)} clearSearchText={clearSearchText}/>
         <Container fluid>
           <Row>
             {/* d-none = display:none but it is not active if the size is greater than a device with d-mb-block */}
@@ -82,3 +87,9 @@ export default function HomePage({ setUser, user }) {
     </>
   );
 }
+
+
+
+HomePage.propTypes = {
+  clearSearchText: PropTypes.func,
+};

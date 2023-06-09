@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 
-const SearchComponent = ({onSearch}) => {
+const SearchComponent = ({onSearch, clearSearchText}) => {
     
     /*
         To get access to the input field in Form.Control.
@@ -20,7 +20,8 @@ const SearchComponent = ({onSearch}) => {
         // when the form is submitted check the ref has something
         if(ref.current  && ref.current.value) {
             console.log(ref.current.value);
-            onSearch(ref.current.value);           
+            onSearch(ref.current.value);       
+                        
         }
     }
 
@@ -48,6 +49,7 @@ through the HomePage component. No need to go through the NavBarComponent.
 */
 SearchComponent.propTypes = {
     onSearch: PropTypes.func,
+    clearSearchText: PropTypes.func,
 };
 
 export default SearchComponent

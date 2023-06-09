@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import * as igdbService from '../services/games/igdb/igdb-service';
 import usePayload from './usePayload';
 
-const useData = (endpoint, selectedGenre, selectedPlatform, sortOrder, searchText) => {
+const useData = (endpoint, selectedGenre, selectedPlatform, searchText) => {
 
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const abortController = new AbortController();
     
-    const payload = usePayload(endpoint, selectedGenre, selectedPlatform, sortOrder, searchText);
+    const payload = usePayload(endpoint, selectedGenre, selectedPlatform, searchText);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await igdbService.listData(endpoint, payload, abortController.signal);
-                setData(res); // Update the games state with the response data
-                setLoading(false); // Set loading to false after successful fetch
+                let res = await igdbService.listData(endpoint, payload, abortController.signal);
+                setData(res);
+                setLoading(false); // Set loading to false after successful fetch              
 
             } catch (error) {
                 if (error.name === 'AbortError') {
@@ -45,5 +45,6 @@ const useData = (endpoint, selectedGenre, selectedPlatform, sortOrder, searchTex
 
     return { data, error, loading }
 }
+
 
 export default useData;
