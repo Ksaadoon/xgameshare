@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import * as igdbService from '../services/games/igdb/igdb-service';
 import usePayload from './usePayload';
 
-const useData = (endpoint, selectedGenre, selectedPlatform, searchText) => {
+const useData = (endpoint, selectedGenre, selectedPlatform, sortOrder, searchText) => {
 
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const abortController = new AbortController();
     
-    const payload = usePayload(selectedGenre, selectedPlatform, searchText);
+    const payload = usePayload(endpoint, selectedGenre, selectedPlatform, sortOrder, searchText);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +35,7 @@ const useData = (endpoint, selectedGenre, selectedPlatform, searchText) => {
             abortController.abort();
         };
 
-    }, [endpoint, selectedGenre, selectedPlatform, searchText]);
+    }, [endpoint, payload]);
 
     /*
         To ensure that the setPayload function is called to update the payload when the selectedGenre prop changes, 

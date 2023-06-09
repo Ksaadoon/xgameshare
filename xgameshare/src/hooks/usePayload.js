@@ -1,14 +1,23 @@
 /** Helper method for query payload format */
-const usePayload = (selectedGenre, selectedPlatform, searchText) => {
+const usePayload = (endpoint, selectedGenre, selectedPlatform, sortOrder, searchText) => {
 
-  let payload = "fields name; limit 30;";
+  let payload = "fields name ";
 
+  if (endpoint.startsWith("/games")) {
+    payload += " , platforms, aggregated_rating, first_release_date, genres, tags, summary, storyline, themes, url, cover;";
+  } else {
+    payload += ";"
+  }
 
-  if (selectedGenre || selectedPlatform || searchText) {
+  payload += "limit 30;"
+
+  if (selectedGenre || selectedPlatform || searchText ) {
+  
     payload += " where";
 
     if (searchText) {
       payload += ` name ~  "${searchText}"*`;
+
     } else {
 
       if (selectedGenre) {
@@ -18,10 +27,12 @@ const usePayload = (selectedGenre, selectedPlatform, searchText) => {
       if (selectedPlatform) {
         payload += selectedGenre ? ` & platforms.platform_family= ${selectedPlatform}` : ` platforms.platform_family = ${selectedPlatform}`;
       }
+      payload += ";"    
+    }
+    if (sortOrder) {
+      payload += `sort ${sortOrder} desc;`;
     }
   }
-
-  payload += ";"
   return payload;
 }
 

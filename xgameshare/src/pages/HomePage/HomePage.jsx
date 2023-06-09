@@ -35,41 +35,50 @@ export default function HomePage({ setUser, user }) {
   const [selectedPlatform, setSelectedPlatform] = useState(null);
 
   const [searchText, setSearchText] = useState(null);
+  
+  const [sortOrderSelection, setSortOrderSelection] = useState('');
+
 
   return (
     <>
-      <Container>
-        <Row>
-          <Col>
-            <NavBarComponent setUser={setUser} user={user} onSearch={(searchText) => setSearchText(searchText)}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {/* (platform) => setSelectedPlatform(platform): 
-                    this is a function that takes a platform as parameter and calls the state method setSelectedPlatform.
+      <div className='homepage'>
+        <NavBarComponent setUser={setUser} user={user} onSearch={(searchText) => setSearchText(searchText)} />
+        <Container fluid>
+          <Row>
+            {/* d-none = display:none but it is not active if the size is greater than a device with d-mb-block */}
+            <Col md={3} className='d-none d-md-block'>
+              {/* (genre) => setSelectedGenre(genre): 
+                    this is a anonymous function that takes a genre as parameter and calls the state method setSelectedGenre.
                 It is a prop function!
               */}
-            <PlatformSelector onSelectPlatform={(platform) => setSelectedPlatform(platform)}/>
-            {/* (genre) => setSelectedGenre(genre): 
-                    this is a function that takes a genre as parameter and calls the state method setSelectedGenre.
+              <GameGenresList onSelectGenre={(genre) => setSelectedGenre(genre)} />
+            </Col>
+            <Col md={9}>
+              <Row>
+                <Col md={3}>
+                  {/* (platform) => setSelectedPlatform(platform): 
+                    this is a anonymous function that takes a platform as parameter and calls the state method setSelectedPlatform.
                 It is a prop function!
               */}
-            <GameGenresList onSelectGenre={(genre) => setSelectedGenre(genre)} />
-          </Col>
-          <Col>
-              <SortSelector/>
-          </Col>
-          <Col>
-            {/* We need to pass the selected genre to the GameComponent so it can be passed to the backend 
+                  <PlatformSelector onSelectPlatform={(platform) => setSelectedPlatform(platform)} />
+                </Col>
+                <Col md={3}>
+                  <SortSelector onSortOrder={(sortOrderSelection) => setSortOrderSelection(sortOrderSelection)}/>
+                  {/* We need to pass the selected genre to the GameComponent so it can be passed to the backend 
                 while fetching the games.So we are passing a prop to the Games component.
-                It is a prop object! (same thing with selectedPlatorm)
-                searchValue is a prop string
+                It is a prop object! (an object because it has inside a name and an id (selectedGenre.name, selectedGenre.id)) (same thing with selectedPlatorm)
+                searchText is a prop string (just the string typed inside the search bar)
              */}
-            <Games selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} searchText={searchText} />           
-          </Col>
-        </Row>
-      </Container>
+                </Col>
+              </Row>
+              <Games selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} sortOrderSelection={sortOrderSelection} searchText={searchText} />
+            </Col>
+          </Row>
+        </Container>
+        <footer className="footer">
+          Footer
+        </footer>
+      </div>
     </>
   );
 }

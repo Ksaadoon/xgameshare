@@ -12,7 +12,7 @@ const app = express();
 require('./config/database');
 
 // Middleware
-app.use(logger('combined'));
+app.use(logger('dev'));
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
