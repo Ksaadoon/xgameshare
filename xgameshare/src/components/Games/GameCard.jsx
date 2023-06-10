@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import { Card, Button} from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import "./Game.css";
 import imageplaceholder from '../../assets/imageplaceholder.webp';
 import getCroppedImageUrl from '../../services/games/igdb/images-url';
 
-const GameCard = ({game}) => {
+const GameCard = ({ game }) => {
 
-   return (
+  return (
     <Card>
-        <Card.Img className="card-image" variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder}/>
-        <Card.Body>
-        <Card.Title>{game.name}</Card.Title>       
+      <Card.Img rounded variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder} />
+      <Card.Body>
+        <Card.Title>{game.name}</Card.Title>
         <Button variant="primary">add</Button>
       </Card.Body>
     </Card>
@@ -18,9 +18,9 @@ const GameCard = ({game}) => {
 }
 
 GameCard.propTypes = {
-    game: PropTypes.object,
+  game: PropTypes.object,
 
-  };
-  
+};
+
 
 export default GameCard

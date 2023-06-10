@@ -9,33 +9,30 @@ import { Container, Row, Col } from 'react-bootstrap';
     As opposed to the prop passed to the GameGenreList component (which was a function)
     This prop is just a object.
 */
-const GameGrid = ( {selectedGenre, selectedPlatform, searchText}) => {
+const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
 
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
-  const { data: games, error, loading} = useGames(selectedGenre, selectedPlatform, searchText);
+  const { data: games, error, loading } = useGames(selectedGenre, selectedPlatform, searchText);
 
   return (
-    <Container>
-      <Row columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
-      padding="10px"
-      spacing={6}>
-      {loading ? (
-        // Render a loading indicator or placeholder
-        <div>Loading games...</div>
-      ) : error ? (
-        // Render the error message
-        <div>{error}</div>
-      ) : games && games.length > 0 ? (
-          // Render the list of games      
-          games.map((game) => (<GameCard key={game.id} game={game}/>))
-      
-      ) : (
-        // Render a message when there are no games
-        <div>No games found</div>
-      )}
+    <Container fluid>
+      {/* mobile device and the number of colums for each */}
+      <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+
+      {games.map((game) => (
+              <GameCardContainer key={game.id}>
+                <GameCard game={game} />
+              </GameCardContainer>
+      ))}
+        
       </Row>
     </Container>
-  );
+
+
+
+  )
+
+
 };
 
 /**
@@ -48,5 +45,34 @@ GameGrid.propTypes = {
   searchText: PropTypes.string,
 };
 
+/*
+
+<Container>
+      <Row columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+        padding="10px"
+        spacing={6}>
+        {loading ? (
+          // Render a loading indicator or placeholder
+          <div>Loading games...</div>
+        ) : error ? (
+          // Render the error message
+          <div>{error}</div>
+        ) : games && games.length > 0 ? (
+          // Render the list of games
+          <Col>
+            {games.map((game) => (
+              <GameCardContainer key={game.id}>
+                <GameCard game={game} />
+              </GameCardContainer>
+            ))}
+          </Col>
+
+        ) : (
+          // Render a message when there are no games
+          <div>No games found</div>
+        )}
+      </Row>
+    </Container>
+*/
 
 export default GameGrid;

@@ -1,11 +1,14 @@
 import React from 'react'
+import { Card } from 'react-bootstrap';
 import "./Game.css";
 
-const GameCardContainer = () => {
+const GameCardContainer = ({children}) => {
   return (
-    <div className="game-card-container">
 
-    </div>
+      <Card rounded >
+        {children}
+      </Card>
+
   )
 }
 export default GameCardContainer
