@@ -1,26 +1,29 @@
 import React from 'react'
 import useGenres from '../../hooks/useGenres'
-import { Button } from 'react-bootstrap';
+import { Button, ListGroup, ListGroupItem, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 /*
     The GameGenresList component is receiving a prop : onSelectGenre
 */
-const GameGenres = ({ onSelectGenre }) => {
+const GameGenres = ({ onSelectGenre, selectedGenre }) => {
 
-    const { data: genres } = useGenres();
- 
+    const { data: genres, error, isLoading } = useGenres();
+
+    if (error) return null;
+
+    if (isLoading) return <Spinner />;
+
     return (
-        <ul>
+        <ListGroup>
             {genres.map(genre => (
-                <li key={genre.id}>
-                    {/* variant="Link" so that the button looks like link */}
-                    <Button onClick={() => onSelectGenre(genre)} variant="link">
-                        {genre.name}
-                    </Button>
-                </li>
+
+                <ListGroupItem  key={genre.id} onClick={() => onSelectGenre(genre)}  className={genre.id === selectedGenre?.id ? 'active' : ''}>
+                    {genre.name}
+                </ListGroupItem>
+
             ))}
-        </ul>
+        </ListGroup>
     )
 }
 
@@ -39,6 +42,7 @@ const GameGenres = ({ onSelectGenre }) => {
 */
 GameGenres.propTypes = {
     onSelectGenre: PropTypes.func.isRequired,
-  };
+    selectedGenre: PropTypes.object,
+};
 
 export default GameGenres

@@ -57,7 +57,7 @@ export default function HomePage({ setUser, user }) {
                     this is a anonymous function that takes a genre as parameter and calls the state method setSelectedGenre.
                 It is a prop function!
               */}
-              <GameGenres onSelectGenre={(genre) => setSelectedGenre(genre)} />
+              <GameGenres onSelectGenre={(genre) => setSelectedGenre(genre)} selectedGenre={selectedGenre} />
             </Col>
             <Col md={9}>
               <Row>

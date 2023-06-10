@@ -5,7 +5,7 @@ import "./Game.css";
 const GameCardContainer = ({children}) => {
   return (
 
-      <Card rounded >
+      <Card>
         {children}
       </Card>
 
