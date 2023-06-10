@@ -72,3 +72,5 @@ const port = process.env.REACT_APP_SERVER_PORT;
 
 //the order in listen(port, host) is important otherwise getting address already in use!
 module.exports = app.listen(port, host, () => console.log('Running express server and CORS proxies at: '  + host + ":" + port));
+
+app.listen (process.env.PORT || 6969);
