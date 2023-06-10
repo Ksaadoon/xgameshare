@@ -28,6 +28,7 @@ const GameCard = ({ user, game }) => {
         <Card.Body>
           <Card.Title>{game.name}</Card.Title>
           <Card.Text>{game.platformNames}</Card.Text>
+          <Card.Text>{game.genreNames}</Card.Text>
           <GameRating rating={roundupNumber(game.aggregated_rating)} />
           {/* only show if user is logged in */}
           {user && (

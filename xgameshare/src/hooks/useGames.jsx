@@ -39,9 +39,12 @@ const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
           };
         });
 
+        console.log(gamesWithPlatforms);
+
+
 
         //Same thing for genres
-        const gamesWithPlatormAndGenresNames = gamesData.map(game => {
+        const gamesWithPlatormAndGenresNames = gamesWithPlatforms.map(game => {
           const genreNames = game.genres.map(genreId => {
             const genre = genreData.find(genre => genre.id === genreId);
             return genre ? genre.name : '';
@@ -55,7 +58,7 @@ const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
         console.log(gamesWithPlatormAndGenresNames);
 
 
-        setGames(gamesWithPlatforms);
+        setGames(gamesWithPlatormAndGenresNames);
         setLoading(false);
       } catch (error) {
         console.error(error);
