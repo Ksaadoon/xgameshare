@@ -16,20 +16,32 @@ import { Container, Row, Col } from 'react-bootstrap';
 const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
 
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
-  const { data: games, error, loading } = useGames(selectedGenre, selectedPlatform, searchText);
+  const { games, loading } = useGames(selectedGenre, selectedPlatform, searchText);
 
   return (
     <Container fluid>
-      {/* screen size and the number of colums for each */}
-      <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+      {/* screen size and the number of colums for each 
+    xs={1} sm={2} md={3} lg={4} xl={6
+    */}
 
-      {games.map((game) => (
-              <GameCardContainer key={game.id}>
-                <GameCard game={game} />
-              </GameCardContainer>
-      ))}
-        
-      </Row>
+
+      {/* VERY IMPORTANT TO ALWAYS HAVE A LOADING CHECK WHEN RENDERING COMPONENT OTHERWISE TONS OF ERRORS HARD TO TRACK */}
+      {loading ? (
+        <p>Loading games...</p>
+      ) : (
+
+        <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+          {games.map((game) => (
+            <GameCardContainer key={game.id}>
+              <GameCard game={game} />
+            </GameCardContainer>
+          ))}
+        </Row>
+
+
+      )}
+
+
     </Container>
   )
 };

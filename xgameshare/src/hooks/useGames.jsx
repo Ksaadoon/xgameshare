@@ -1,36 +1,45 @@
-import useData from "./useData";
-import useGamePayload from "./useGamePayload";
-import { useGamePlatformIdsPayload } from "./useGamePlatformPayload";
+import * as igdbService from '../services/games/igdb/igdb-service';
+import { getGamePayload, getGamePlatformIdsPayload } from "./hookHelpers";
+import { useEffect, useState } from 'react';
 
-  const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
+// custom hooks cannot be marked as async directly.
+const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    console.log("useGames input: genre:" + selectedGenre?.id + " platform: " + selectedPlatform?.id + " search: " + searchText +  " sortOrder: " + sortOrder);
-    const gamesEndpoint = "/games";
-    // get the selections for create the payload and return games matching the selections
-    let payload = useGamePayload(selectedGenre, selectedPlatform, searchText);
-    // fetch the games 
-    const gamesData = useData(gamesEndpoint, payload);
+  console.log("useGames input: genre:" + selectedGenre?.id + " platform: " + selectedPlatform?.id + " search: " + searchText + " sortOrder: " + sortOrder);
 
-    // // Extract the platform IDs from the games data
-    // const platformIds = gamesData.map(game => game.platforms);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
 
-    // // build the payload for the platform
-    // payload = useGamePlatformIdsPayload(platformIds);
-    
-    // // fetch the platform data
-    // const platformData = useData("/platforms", payload);
+        const payload = getGamePayload(selectedGenre, selectedPlatform, searchText);
+        const gamesData = await igdbService.getData("/games", payload);
 
-    //  // Merge the platform details into the games data
-    //  const gamesWithPlatforms = gamesData.map(game => {
-    //     const platform = platformData.find(platform => platform.id === game.platform);
-    //     return {
-    //       ...game,
-    //       platformName: platform?.name || '',
-    //     };
-    //   });
+        const platformIds = gamesData.map(game => game.platforms);
+        const platformPayload = getGamePlatformIdsPayload(platformIds);
+        const platformData = await igdbService.getData("/platforms", platformPayload);
 
-      return gamesData;
+        const gamesWithPlatforms = gamesData.map(game => {
+          const platform = platformData.find(platform => platform.id === game.platform);
+          return {
+            ...game,
+            platformName: platform?.name || '',
+          };
+        });
 
+        setGames(gamesWithPlatforms);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
 
-}
-export default useGames
+    fetchData();
+  }, [selectedGenre, selectedPlatform, searchText]);
+
+  return { games, loading };
+};
+
+export default useGames;

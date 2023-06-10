@@ -1,7 +1,6 @@
-import React from 'react'
-import Dropdown from 'react-bootstrap/Dropdown';
 import usePlatforms from '../../hooks/usePlatforms';
 import PropTypes from 'prop-types';
+import { Dropdown, Spinner } from 'react-bootstrap';
 
 /*
     The platform selector should notify the HomePage component.
@@ -13,11 +12,9 @@ import PropTypes from 'prop-types';
 */
 const PlatformSelector = ({ onSelectPlatform, selectedPlatform }) => {
 
-    const { data: platforms, error } = usePlatforms();
+    const { platforms, loading } = usePlatforms();
 
-
-    //not rendering the component if there is an error
-    if (error) return null;
+    if (loading) return <Spinner />;
 
     return (
 

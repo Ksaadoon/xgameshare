@@ -9,11 +9,10 @@ import PropTypes from 'prop-types';
 */
 const GameGenres = ({ onSelectGenre, selectedGenre }) => {
 
-    const { data: genres, error, isLoading } = useGenres();
+    const { genres, loading } = useGenres();
 
-    if (error) return null;
 
-    if (isLoading) return <Spinner />;
+    if (loading) return <Spinner />;
 
     return (
         <ListGroup>
