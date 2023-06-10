@@ -5,9 +5,11 @@ const usePayload = (endpoint, selectedGenre, selectedPlatform, searchText) => {
 
   if (endpoint.startsWith("/games")) {
     payload += " , cover, cover.url, platforms, aggregated_rating, first_release_date, created_at, genres, summary;";
+    payload += "limit 100;";
     payload += " where cover!=null & cover.url!=null ";
   } else {
     payload += ";"
+    payload += "limit 100;";
   }
 
   
@@ -38,6 +40,7 @@ const usePayload = (endpoint, selectedGenre, selectedPlatform, searchText) => {
   } else {
     payload+= ";"
   }
+
   console.log(payload);
   return payload;
 }
