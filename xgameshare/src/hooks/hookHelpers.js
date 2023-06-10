@@ -4,7 +4,7 @@ export const getGamePayload = (selectedGenre, selectedPlatform, searchText) => {
     let payload = "fields name ";
   
     payload += " , cover, cover.url, platforms, aggregated_rating, first_release_date, created_at, genres, summary, storyline;";
-    payload += "limit 100;";
+    payload += "limit 5;";
     payload += " where cover!=null & cover.url!=null ";
   
   

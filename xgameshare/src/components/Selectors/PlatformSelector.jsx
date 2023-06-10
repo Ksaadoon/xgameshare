@@ -1,4 +1,4 @@
-import usePlatforms from '../../hooks/usePlatforms';
+import usePlatformsFamilies from '../../hooks/usePlatformsFamilies';
 import PropTypes from 'prop-types';
 import { Dropdown, Spinner } from 'react-bootstrap';
 
@@ -12,7 +12,7 @@ import { Dropdown, Spinner } from 'react-bootstrap';
 */
 const PlatformSelector = ({ onSelectPlatform, selectedPlatform }) => {
 
-    const { platforms, loading } = usePlatforms();
+    const { platforms, loading } = usePlatformsFamilies();
 
     if (loading) return <Spinner />;
 

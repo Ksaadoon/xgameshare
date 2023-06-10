@@ -1,7 +1,7 @@
 import * as igdbService from '../services/games/igdb/igdb-service';
 import { useEffect, useState } from 'react';
 
-export const usePlatforms = () => {
+export const usePlatformsFamilies = () => {
 
     const [platforms, setPlatforms] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,4 +26,4 @@ export const usePlatforms = () => {
 
       return { platforms, loading };
 }
-export default usePlatforms;
+export default usePlatformsFamilies;

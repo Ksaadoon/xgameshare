@@ -27,7 +27,7 @@ const GameCard = ({ user, game }) => {
         <Card.Img variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder} />
         <Card.Body>
           <Card.Title>{game.name}</Card.Title>
-          <Card.Text>{game.platforms}</Card.Text>
+          <Card.Text>{game.platformNames}</Card.Text>
           <GameRating rating={roundupNumber(game.aggregated_rating)} />
           {/* only show if user is logged in */}
           {user && (
