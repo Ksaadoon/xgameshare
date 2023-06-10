@@ -74,9 +74,14 @@ export default function LoginForm({ setUser, user }) {
                         </Form>
                     </Col>
                 </Row>
-                <div>
-                    <p className="error-message">{error}</p>
-                </div>            
+                 {/* Only show error if there is one 
+             the && is like a then (if...then)
+            */}
+            {error && (
+                <p className="error-message">
+                    {error}
+                </p>
+            )}       
             </div >
         </Container >
     );

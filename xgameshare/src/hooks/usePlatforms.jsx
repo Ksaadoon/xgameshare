@@ -2,7 +2,9 @@ import useData from './useData';
 
 const usePlatforms = () => {
   
-    return useData("/platform_families");
+    const payload = "fields name; limit 100;";
+
+    return useData("/platform_families", payload);
   
 }
 

@@ -1,7 +1,9 @@
 import useData from './useData';
 
 const useGenres = () => {
-    return useData("/genres");
+    const payload = "fields name; limit 100;";
+
+    return useData("/genres", payload);
 }
 
 export default useGenres

@@ -4,7 +4,8 @@ import { Button, ListGroup, ListGroupItem, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 /*
-    The GameGenresList component is receiving a prop : onSelectGenre
+    The GameGenresList component is receiving a prop : onSelectGenre which is a function.
+    The function is defined at the parent level of this component which is HomePage.
 */
 const GameGenres = ({ onSelectGenre, selectedGenre }) => {
 

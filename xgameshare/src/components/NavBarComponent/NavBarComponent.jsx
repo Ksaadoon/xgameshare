@@ -1,10 +1,13 @@
 import './NavBarComponent.css';
 import { Navbar, Nav } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { logOut } from '../../services/users/users-service';
 import SearchComponent from '../SearchComponent/SearchComponent';
 
 const NavbarComponent = ({ setUser, user, onSearch, clearSearchText}) => {
+
+  const navigate = useNavigate();
 
   function handleLogOut() {
     // Remove the user token from local storage
@@ -12,6 +15,8 @@ const NavbarComponent = ({ setUser, user, onSearch, clearSearchText}) => {
     // Update user state in App
     clearSearchText();
     setUser(null);
+    console.log("Logged out");
+    navigate('/',{replace: true});
   }
 
   return (
@@ -30,7 +35,7 @@ const NavbarComponent = ({ setUser, user, onSearch, clearSearchText}) => {
             (
               <>
                 <Nav.Link href="/invite">Invite</Nav.Link>
-                <Nav.Link href="/" onClick={handleLogOut}>Log Out</Nav.Link>
+                <Nav.Link onClick={handleLogOut}>Log Out</Nav.Link>
               </>
             )
             : (

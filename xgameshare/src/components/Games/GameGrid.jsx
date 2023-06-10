@@ -6,8 +6,12 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /*
     The Games component is receiving a prop : selectedGenre 
-    As opposed to the prop passed to the GameGenreList component (which was a function)
-    This prop is just a object.
+    As opposed to the prop passed to the GameGenre component (which was a function)
+    This prop is just a object composed of { genre.id, genre.name }
+
+    same thing for selectedPlatform is also a prop object
+
+    searchText is a prop just made of a string (not an object)
 */
 const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
 
@@ -16,7 +20,7 @@ const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
 
   return (
     <Container fluid>
-      {/* mobile device and the number of colums for each */}
+      {/* screen size and the number of colums for each */}
       <Row xs={1} sm={2} md={3} lg={4} xl={6}>
 
       {games.map((game) => (
@@ -27,12 +31,7 @@ const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
         
       </Row>
     </Container>
-
-
-
   )
-
-
 };
 
 /**
@@ -44,35 +43,5 @@ GameGrid.propTypes = {
   selectedPlatform: PropTypes.object,
   searchText: PropTypes.string,
 };
-
-/*
-
-<Container>
-      <Row columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
-        padding="10px"
-        spacing={6}>
-        {loading ? (
-          // Render a loading indicator or placeholder
-          <div>Loading games...</div>
-        ) : error ? (
-          // Render the error message
-          <div>{error}</div>
-        ) : games && games.length > 0 ? (
-          // Render the list of games
-          <Col>
-            {games.map((game) => (
-              <GameCardContainer key={game.id}>
-                <GameCard game={game} />
-              </GameCardContainer>
-            ))}
-          </Col>
-
-        ) : (
-          // Render a message when there are no games
-          <div>No games found</div>
-        )}
-      </Row>
-    </Container>
-*/
 
 export default GameGrid;

@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
 import * as igdbService from '../services/games/igdb/igdb-service';
-import usePayload from './usePayload';
 
-const useData = (endpoint, selectedGenre, selectedPlatform, searchText) => {
+const useData = (endpoint, payload) => {
 
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const abortController = new AbortController();
-    
-    const payload = usePayload(endpoint, selectedGenre, selectedPlatform, searchText);
+     
 
     useEffect(() => {
-        const fetchData = async () => {
+        
+        const fetchData = async (payload) => {
             try {
                 let res = await igdbService.getData(endpoint, payload, abortController.signal);
                 setData(res);
@@ -28,7 +27,7 @@ const useData = (endpoint, selectedGenre, selectedPlatform, searchText) => {
             }
         };
 
-        fetchData();
+        fetchData(payload);
 
         return () => {
             // Cleanup function to abort the request when the component unmounts

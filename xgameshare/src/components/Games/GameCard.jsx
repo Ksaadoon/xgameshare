@@ -4,30 +4,37 @@ import "./Game.css";
 import imageplaceholder from '../../assets/imageplaceholder.webp';
 import getCroppedImageUrl from '../../services/games/igdb/images-url';
 import GameRating from './GameRating';
+import { roundupNumber } from '../../utilities/data-conversion';
 
+const GameCard = ({ user, game }) => {
 
-const GameCard = ({ game }) => {
+  let tooltip = game.summary ? game.summary : "No summary available";
 
   const renderTooltip = (props) => (
+
     <Tooltip id="button-tooltip" {...props}>
-     {game.summary}
+      {tooltip}
     </Tooltip>
   );
 
   return (
     <OverlayTrigger
-    placement="right"
-    delay={{ show: 250, hide: 400 }}
-    overlay={renderTooltip}
-  >
-    <Card >
-      <Card.Img  variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder} />
-      <Card.Body>
-        <Card.Title>{game.name}</Card.Title>
-        <GameRating rating={game.aggregated_rating}/>
-        <Button variant="primary">add</Button>
-      </Card.Body>
-    </Card>
+      placement="right"
+      delay={{ show: 250, hide: 400 }}
+      overlay={renderTooltip}
+    >
+      <Card >
+        <Card.Img variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder} />
+        <Card.Body>
+          <Card.Title>{game.name}</Card.Title>
+          <Card.Text>{game.platforms}</Card.Text>
+          <GameRating rating={roundupNumber(game.aggregated_rating)} />
+          {/* only show if user is logged in */}
+          {user && (
+            <Button variant="primary">add</Button>
+          )}
+        </Card.Body>
+      </Card>
     </OverlayTrigger>
   )
 }

@@ -36,7 +36,7 @@ export default function SignupForm({ setUser, user }) {
             setUser(user);
             navigate('/', { replace: true });
 
-        } catch (error) {           
+        } catch (error) {
             //setErrorMessage( {message: "bad stuff happened", details: "details of bad stuff"});
             setErrorMessage({ message: error.error, details: error.details });
         }
@@ -98,11 +98,14 @@ export default function SignupForm({ setUser, user }) {
                     </Form>
                 </Col>
             </Row>
-            <div>
+            {/* Only show error message if there is one 
+             the && is like a then (if...then)
+            */}
+            {errorMessage.message && (
                 <p className="error-message">
-                    error: { errorMessage.message}: {errorMessage.details}
+                    {errorMessage.message} {errorMessage.details}
                 </p>
-            </div>
+            )}
         </Container>
     );
 }
