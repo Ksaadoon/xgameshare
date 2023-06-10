@@ -67,10 +67,10 @@ export default function HomePage({ setUser, user }) {
                     this is a anonymous function that takes a platform as parameter and calls the state method setSelectedPlatform.
                 It is a prop function!
               */}
-                  <PlatformSelector onSelectPlatform={(platform) => setSelectedPlatform(platform)} />
+                  <PlatformSelector onSelectPlatform={(platform) => setSelectedPlatform(platform)} selectedPlatform={selectedPlatform} />
                 </Col>
                 <Col md={3}>
-                  <SortSelector onSortOrder={(sortOrderSelection) => setSortOrderSelection(sortOrderSelection)}/>
+                  <SortSelector onSortOrder={(sortOrderSelection) => setSortOrderSelection(sortOrderSelection)} sortOrderSelection={sortOrderSelection}/>
                   {/* We need to pass the selected genre to the GameComponent so it can be passed to the backend 
                 while fetching the games.So we are passing a prop to the Games component.
                 It is a prop object! (an object because it has inside a name and an id (selectedGenre.name, selectedGenre.id)) (same thing with selectedPlatorm)

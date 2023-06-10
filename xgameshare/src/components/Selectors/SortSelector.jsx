@@ -1,7 +1,7 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import PropTypes from 'prop-types';
 
-const SortSelector = ({onSortOrder}) => {
+const SortSelector = ({onSortOrder, sortOrder}) => {
 
 
     const sortOrders = [
@@ -11,16 +11,21 @@ const SortSelector = ({onSortOrder}) => {
         { value: 'first_release_date', label: 'Release date' },
         { value: 'aggregated_rating', label: 'Average rating' },
     ]
+    const currentSortOrder = sortOrders.find(order => order.value === sortOrder);
 
     return (
 
 
         <Dropdown>
             <Dropdown.Toggle variant="primary" id="dropdown-toggle">
-                Order by: Relevance
+                Order by: {currentSortOrder?.label || 'Relevance'}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-                {sortOrders.map((order) => (<Dropdown.Item key={order.value} value={order.value} >{order.label}</Dropdown.Item>))};
+                {sortOrders.map((order) => (
+                    <Dropdown.Item onClick={() => onSortOrder(order.value)} key={order.value} value={order.value}>
+                        {order.label}
+                    </Dropdown.Item>
+                ))};
             </Dropdown.Menu>
         </Dropdown>
 
@@ -32,6 +37,7 @@ const SortSelector = ({onSortOrder}) => {
 //This is a prop function!
 SortSelector.propTypes = {
     onSortOrder: PropTypes.func,
+    selectedPlatform: PropTypes.string,
 };
 
 

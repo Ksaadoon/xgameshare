@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
     
     onSelectPlatform is a prop function!
 */
-const PlatformSelector = ({ onSelectPlatform }) => {
+const PlatformSelector = ({ onSelectPlatform, selectedPlatform }) => {
 
     const { data: platforms, error } = usePlatforms();
 
@@ -23,7 +23,7 @@ const PlatformSelector = ({ onSelectPlatform }) => {
 
         <Dropdown>
             <Dropdown.Toggle variant="primary" id="dropdown-toggle">
-                Platform
+                {selectedPlatform?.name || 'Platforms' }
             </Dropdown.Toggle>
             <Dropdown.Menu>
                 {/* () => onSelectPlatform(platform): 
@@ -46,6 +46,7 @@ const PlatformSelector = ({ onSelectPlatform }) => {
 //This is a prop function!
 PlatformSelector.propTypes = {
     onSelectPlatform: PropTypes.func,
+    selectedPlatform: PropTypes.object,
 };
 
 export default PlatformSelector
