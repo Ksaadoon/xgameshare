@@ -7,6 +7,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlatformSelector from '../../components/Selectors/PlatformSelector';
 import SortSelector from '../../components/Selectors/SortSelector';
+import GameHeading from '../../components/Games/GameHeading';
 
 
 export default function HomePage({ setUser, user }) {
@@ -60,6 +61,7 @@ export default function HomePage({ setUser, user }) {
             </Col>
             <Col md={9}>
               <Row>
+                <GameHeading selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} />
                 <Col md={3}>
                   {/* (platform) => setSelectedPlatform(platform): 
                     this is a anonymous function that takes a platform as parameter and calls the state method setSelectedPlatform.
