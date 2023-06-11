@@ -78,7 +78,7 @@ export default function HomePage({ setUser, user }) {
              */}
                 </Col>
               </Row>
-              <GameGrid selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} sortOrderSelection={sortOrderSelection} searchText={searchText} />
+              <GameGrid user={user} selectedGenre={selectedGenre} selectedPlatform={selectedPlatform} sortOrderSelection={sortOrderSelection} searchText={searchText} />
             </Col>
           </Row>
         </Container>

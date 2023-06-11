@@ -2,7 +2,7 @@ import useGames from '../../hooks/useGames';
 import PropTypes from 'prop-types';
 import GameCardContainer from './GameCardContainer';
 import GameCard from './GameCard';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 
 /*
     The Games component is receiving a prop : selectedGenre 
@@ -13,7 +13,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
     searchText is a prop just made of a string (not an object)
 */
-const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
+const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
 
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
   const { games, loading } = useGames(selectedGenre, selectedPlatform, searchText);
@@ -32,8 +32,8 @@ const GameGrid = ({ selectedGenre, selectedPlatform, searchText }) => {
 
         <Row xs={1} sm={2} md={3} lg={4} xl={6}>
           {games.map((game) => (
-            <GameCardContainer key={game.id}>
-              <GameCard game={game} />
+            <GameCardContainer user={user} key={game.id}>
+              <GameCard user={user} game={game} />
             </GameCardContainer>
           ))}
         </Row>
