@@ -1,4 +1,9 @@
 
+/*
+  the sendRequest function is the default export of the sendRequest module, 
+  and it can be imported and used directly without curly braces.
+  like so: import sendRequest from './sendRequest';
+*/
 export default async function sendRequest(url, method = 'GET', tokenName, payload = null) {
 
   // Fetch accepts an options object as the 2nd argument
@@ -19,8 +24,15 @@ export default async function sendRequest(url, method = 'GET', tokenName, payloa
 
   const res = await fetch(url, requestOptions);
   // res.ok will be false if the status code set to 4xx in the controller action
-  if (res.ok) return await res.json();
-  throw new Error('Bad Request');
+  if (res.ok) {
+    return await res.json();
+  } else if (res.status === 409) {
+    const errorResponse = await res.json();
+    throw new Error(errorResponse.error);
+  }
+  else {
+    throw new Error('Bad Request');
+  }
 }
 
 

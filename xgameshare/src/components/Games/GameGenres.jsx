@@ -1,6 +1,6 @@
 import React from 'react'
 import useGenres from '../../hooks/useGenres'
-import { Button, ListGroup, ListGroupItem, Spinner } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 /*

@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import { Card, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Card, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import "./Game.css";
 import imageplaceholder from '../../assets/imageplaceholder.webp';
 import getCroppedImageUrl from '../../services/games/igdb/images-url';
 import GameRating from './GameRating';
 import { roundupNumber } from '../../utilities/data-conversion';
+import GameForm from './GameForm';
 
 const GameCard = ({ user, game }) => {
 
@@ -18,25 +19,33 @@ const GameCard = ({ user, game }) => {
   );
 
   return (
-    <OverlayTrigger
-      placement="right"
-      delay={{ show: 250, hide: 400 }}
-      overlay={renderTooltip}
-    >
-      <Card >
-        <Card.Img variant="top" src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder} />
-        <Card.Body>
-          <Card.Title>{game.name}</Card.Title>
-          <Card.Text>{game.platformNames}</Card.Text>
-          <Card.Text>{game.genreNames}</Card.Text>
-          <GameRating rating={roundupNumber(game.aggregated_rating)} />
-          {/* only show if user is logged in */}
-          {user && (
-            <Button variant="primary">add</Button>
-          )}
-        </Card.Body>
-      </Card>
-    </OverlayTrigger>
+
+    <Card >
+
+      <OverlayTrigger placement="right" overlay={renderTooltip}>
+        <Card.Img
+          variant="top"
+          src={game.cover?.url ? getCroppedImageUrl(game.cover.url) : imageplaceholder}
+        />
+      </OverlayTrigger>
+
+
+
+      <Card.Body>
+        <Card.Title>{game.name}</Card.Title>
+        <Card.Text>{game.platformNames}</Card.Text>
+        <Card.Text>{game.genreNames}</Card.Text>
+        <GameRating rating={roundupNumber(game.aggregated_rating)} />
+
+        {/* only show if user is logged in */}
+        {user && (
+          <GameForm user={user} game={game} />
+        )}
+
+
+      </Card.Body>
+    </Card>
+
   )
 }
 

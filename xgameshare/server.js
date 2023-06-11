@@ -45,12 +45,12 @@ const proxyOptionsForIgdb = {
 }
 const proxyIgdb_DATA = createProxyMiddleware(proxyOptionsForIgdb);
 
-
 app.use(`${process.env.REACT_APP_IGDB_PROXY_BASE_PATH_DATA}`, proxyIgdb_DATA);
-//app.use(`${process.env.REACT_APP_IGDB_PROXY_BASE_PATH_IMAGE}`, proxyIgdb_IMAGE);
+
 
 app.use('/api/auth/twitch', require('./routes/twitchAuth'));
 app.use('/api/users', require('./routes/users'));
+app.use('/favoritegames', require('./routes/games'));
 
 // Catch-all route to serve index.html - must be defined at the end of all the routes.
 app.get('/*', function (req, res) {

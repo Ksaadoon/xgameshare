@@ -1,7 +1,6 @@
 import * as igdbService from '../services/games/igdb/igdb-service';
 import { getGamePayload, getGamePlatformIdsPayload } from "./hookHelpers";
 import { useEffect, useState } from 'react';
-import useGenres from './useGenres';
 
 // custom hooks cannot be marked as async directly.
 const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
