@@ -15,9 +15,9 @@ const Profile = ({ setUser, user }) => {
     return (
         <>
             <div className='profile'>
-                {/* <HomePageContext>
+                
                 {<NavBarComponent setUser={setUser} user={user}/>}
-                </HomePageContext> */}
+                
                 <Container fluid>
                     <Row>
                         {/* d-none = display:none but it is not active if the size is greater than a device with d-mb-block */}
