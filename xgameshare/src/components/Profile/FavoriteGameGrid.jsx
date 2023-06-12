@@ -4,6 +4,8 @@ import FavoriteGameCard from './FavoriteGameCard';
 
 const FavoriteGameGrid = ({ user, games, loading }) => {
 
+  
+
   return (
     <Container fluid>
       {/* screen size and the number of colums for each 

@@ -9,8 +9,6 @@ import * as xgameshareService from './../../services/xgameshare/xgameshare-servi
 
 const FavoriteGameCard = (props) => {
 
-  //key is coming from gameContainer. It represents the FavoriteGameCard _id in the db.
-  // be careful of order.
   const { key, user, game } = props; 
 
   let tooltip = game.summary ? game.summary : "No summary available";
@@ -25,7 +23,7 @@ const FavoriteGameCard = (props) => {
   const handleClick = async (id) => {
     try {
         const res = await xgameshareService.deleteFavorite(id);
-        res.status(200);
+        res.status(200);      
 
     } catch (error) {
     } finally {
