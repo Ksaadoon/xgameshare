@@ -1,7 +1,7 @@
 import sendRequest from './../send-request';
 import { getUserTokenNameInStorage } from '../users/users-service';
 
-export async function saveFavorite(user, game) {
+export async function saveFavorite(game) {
 
     const payload = { 
         igdb_game_id:game.game.id,

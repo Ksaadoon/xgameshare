@@ -1,7 +1,7 @@
 import * as xgameshareAPI from './xgameshare-api'
 
-export async function saveFavorite(user, game) {   
-    return await xgameshareAPI.saveFavorite( user, game);
+export async function saveFavorite(game) {   
+    return await xgameshareAPI.saveFavorite( game);
 }
 
 export async function getFavorites() {

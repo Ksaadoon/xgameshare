@@ -10,7 +10,7 @@ import * as xgameshareService from './../../services/xgameshare/xgameshare-servi
  * to handle the case when the user closes/dismisses the Alert component manually by clicking the close button.
  *
  */
-const GameForm = ({ user, game }) => {
+const GameForm = ({ game }) => {
 
     const [alert, setAlert] = useState(false);
     const [saved, setSaved] = useState(false);
@@ -20,7 +20,7 @@ const GameForm = ({ user, game }) => {
 
     const handleClick = async () => {
         try {
-            const res = await xgameshareService.saveFavorite({ user }, { game });
+            const res = await xgameshareService.saveFavorite({ game });
             if (res.status === 409) {
                 setAlertMessage("Already part of your favorites");
             }
