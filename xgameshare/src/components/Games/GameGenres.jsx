@@ -15,6 +15,10 @@ const GameGenres = ({ onSelectGenre, selectedGenre }) => {
     if (loading) return <Spinner />;
 
     return (
+        <>
+        <h1 fontSize="2xl" marginTop={9} marginBottom={3}>
+        Genres
+      </h1>
         <ListGroup>
             {genres.map(genre => (
 
@@ -24,6 +28,7 @@ const GameGenres = ({ onSelectGenre, selectedGenre }) => {
 
             ))}
         </ListGroup>
+        </>
     )
 }
 
