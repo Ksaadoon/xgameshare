@@ -2,7 +2,9 @@ import useGames from '../../hooks/useGames';
 import PropTypes from 'prop-types';
 import GameCardContainer from './GameCardContainer';
 import GameCard from './GameCard';
-import { Container, Row } from 'react-bootstrap';
+import { Container,Col, Row } from 'react-bootstrap';
+import GameCardSkeleton from './GameCardSkeleton';
+import { useState , useEffect} from 'react';
 
 /*
     The Games component is receiving a prop : selectedGenre 
@@ -15,24 +17,44 @@ import { Container, Row } from 'react-bootstrap';
 */
 const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
 
+  const [currentGenre, setCurrentGenre] = useState(selectedGenre);
+  const [currentPlatform, setCurrentCurrentPlatform] = useState(selectedPlatform);
+  const [currentSearchText, setCurrentSearchText] = useState(searchText);
+  const [reload, setReload] = useState(false);
+
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
   const { games, loading } = useGames(selectedGenre, selectedPlatform, searchText);
+  const skeletonCount = 100;
+
+  useEffect(() => {
+    // Update the current genre when the selected genre changes
+    setCurrentGenre(selectedGenre);
+    setCurrentCurrentPlatform(selectedPlatform);
+    setCurrentSearchText(searchText);
+    setReload(loading);
+  }, [selectedGenre, selectedPlatform, searchText, loading]);
+
 
   return (
     <Container fluid>
       {/* screen size and the number of colums for each 
     xs={1} sm={2} md={3} lg={4} xl={6
-    */}
-
-
-      {/* VERY IMPORTANT TO ALWAYS HAVE A LOADING CHECK WHEN RENDERING COMPONENT OTHERWISE TONS OF ERRORS HARD TO TRACK */}
-      {loading ? (
-        <p>Loading games...</p>
+    
+      VERY IMPORTANT TO ALWAYS HAVE A LOADING CHECK WHEN RENDERING COMPONENT OTHERWISE TONS OF ERRORS HARD TO TRACK */}
+      {loading || reload || currentGenre !== selectedGenre || currentPlatform !== selectedPlatform || currentSearchText !== searchText? (
+         <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+         {Array.from({ length: skeletonCount }).map((_, index) => (
+           <Col key={index}>
+             <GameCardSkeleton key={index} />
+           </Col>
+         ))}
+       </Row>
+        
       ) : (
 
-        <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+        <Row xs={1} sm={2} md={3} lg={4} xl={6} style={{ display: 'flex', alignItems: 'stretch' }}>
           {games.map((game) => (
-            <GameCardContainer user={user} key={game._id}>
+            <GameCardContainer user={user} key={game.id}>
               <GameCard user={user} game={game} />
             </GameCardContainer>
           ))}
@@ -40,8 +62,6 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
 
 
       )}
-
-
     </Container>
   )
 };

@@ -12,6 +12,7 @@ export const getGamePayload = (selectedGenre, selectedPlatform, searchText) => {
 
     if (searchText) {
       //https://api-docs.igdb.com/#filters example: where name ~ *"the"*;;
+      
       payload += " &  name ~ *\"" + searchText + "\"*;";
 
     } else {
@@ -38,10 +39,18 @@ export const getGamePayload = (selectedGenre, selectedPlatform, searchText) => {
 
 
 export const getGamePlatformIdsPayload = (platformIds) => {
-  const uniquePlatformIds = platformIds.filter((value, index, self) => {
+
+  const flattenedIds = platformIds.flat(); // Flatten the array of arrays
+  const uniquePlatformIds = flattenedIds.filter((value, index, self) => {
     return self.indexOf(value) === index;
   });
-  let payload = `fields name; where id = (${uniquePlatformIds.join(',')});`
+  //remove extra commas
+  const cleanedPlatformIds = uniquePlatformIds.join(",").split(",").filter((id) => id !== "").join(",");
+  console.log("uniq:" + uniquePlatformIds);
+
+  //let payload = `fields name; where id = (${cleanedPlatformIds.join(',')});`
+  let payload = "fields name; where id = (" + cleanedPlatformIds + ");";
+  console.log("in method: " + payload);
   return payload;
 
 }
@@ -55,34 +64,37 @@ export const getFavoriteGamesPayload = (igdbIds) => {
 }
 
 
-export const addPlatformGenresNames = (gamesData, platformData, genreData) => {
-  //Go through the list of games to get the list of their platfrom ids.
-  // Then from the platform data find the corresponding id, and inject
-  // the name of the platform inside the game data.
-  const gamesWithPlatforms = gamesData.map(game => {
-    const platformNames = game.platforms.map(platformId => {
-      const platform = platformData.find(platform => platform.id === platformId);
-      return platform ? platform.name : '';
+
+  export const addPlatformGenresNames = (gamesData, platformData, genreData) => {
+
+    const gamesWithPlatforms = gamesData.map((game) => {
+      const platformIds = game.platforms || []; // Handle case where platforms are not specified
+      const platformNames = platformIds.map((platformId) => {
+        const platform = platformData.find((platform) => platform.id === platformId);
+        return platform ? platform.name : '';
+      });
+  
+  
+      const updatedPlatformNames = platformNames.length ? platformNames : ["N/A"];
+  
+      return {
+        ...game,
+        platformNames: updatedPlatformNames,
+      };
     });
-    return {
-      ...game,
-      platformNames: platformNames,
-    };
-  });
-
-  console.log(gamesWithPlatforms);
-
-
-
+  
   //Same thing for genres
   const gamesWithPlatormAndGenresNames = gamesWithPlatforms.map(game => {
-    const genreNames = game.genres.map(genreId => {
-      const genre = genreData.find(genre => genre.id === genreId);
+    const genreIds = game.genres || []; // Handle case where genres are not specified
+    const genreNames = genreIds.map((genreId) => {
+      const genre = genreData.find((genre) => genre.id === genreId);
       return genre ? genre.name : '';
     });
+  
+    const updatedGenreNames = genreNames.length ? genreNames : ["N/A"];
     return {
       ...game,
-      genreNames: genreNames,
+      genreNames: updatedGenreNames,
     };
   });
 
