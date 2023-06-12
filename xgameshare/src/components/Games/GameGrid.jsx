@@ -32,7 +32,7 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
 
         <Row xs={1} sm={2} md={3} lg={4} xl={6}>
           {games.map((game) => (
-            <GameCardContainer user={user} key={game.id}>
+            <GameCardContainer user={user} key={game._id}>
               <GameCard user={user} game={game} />
             </GameCardContainer>
           ))}

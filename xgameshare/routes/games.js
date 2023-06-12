@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const gameController = require('../controllers/game');
-//const ensureLoggedIn = require('../helpers/ensureLoggedin')
+const ensureLoggedIn = require('../helpers/ensureLoggedin')
 
 /*
     Router for managing favorite games.
 */
-router.get('/', gameController.index);
-router.get('/:id', gameController.display);
-router.delete('/:id', gameController.remove);
+router.get('/', ensureLoggedIn, gameController.index);
+router.get('/:id', ensureLoggedIn, gameController.display);
+router.delete('/:id', ensureLoggedIn, gameController.remove);
 
-router.post('/', gameController.save);
+router.post('/', ensureLoggedIn, gameController.save);
 
 
 module.exports = router;

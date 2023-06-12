@@ -35,6 +35,7 @@ const NavbarComponent = ({ setUser, user, onSearch, clearSearchText}) => {
             (
               <>
                 <Nav.Link href="/invite">Invite</Nav.Link>
+                <Nav.Link href="/profile">Account</Nav.Link>
                 <Nav.Link onClick={handleLogOut}>Log Out</Nav.Link>
               </>
             )

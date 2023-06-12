@@ -16,6 +16,12 @@ app.use(logger('dev'));
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
+// when a user logs in, the name "userToken" is used to store the JWT inside the local storage.
+// This middleware is very important to that all request made are pre-processed by this 
+// middleware to extract from the jwt the user object and put it in the req header
+// at the req.user field.
+//
+app.use(require('./helpers/checkToken'));
 
 // Routes
 

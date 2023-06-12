@@ -68,7 +68,6 @@ const GameForm = ({ user, game }) => {
  * This prop contains all the games json data returns by the IGDB API.
  */
 GameForm.propTypes = {
-    user: PropTypes.object,
     game: PropTypes.object,
 };
 

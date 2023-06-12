@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
-import { Card, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import "./Game.css";
+import { Card, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import imageplaceholder from '../../assets/imageplaceholder.webp';
 import getCroppedImageUrl from '../../services/games/igdb/images-url';
-import GameRating from './GameRating';
+import GameRating from '../Games/GameRating';
 import { roundupNumber } from '../../utilities/data-conversion';
-import GameForm from './GameForm';
+import * as xgameshareService from './../../services/xgameshare/xgameshare-service';
 
-const GameCard = ({ user, game }) => {
+
+const FavoriteGameCard = (props) => {
+
+  //key is coming from gameContainer. It represents the FavoriteGameCard _id in the db.
+  // be careful of order.
+  const { key, user, game } = props; 
 
   let tooltip = game.summary ? game.summary : "No summary available";
 
@@ -17,6 +21,17 @@ const GameCard = ({ user, game }) => {
       {tooltip}
     </Tooltip>
   );
+  
+  const handleClick = async (id) => {
+    try {
+        const res = await xgameshareService.deleteFavorite(id);
+        res.status(200);
+
+    } catch (error) {
+    } finally {
+    }
+};
+  
 
   return (
 
@@ -29,8 +44,6 @@ const GameCard = ({ user, game }) => {
         />
       </OverlayTrigger>
 
-
-
       <Card.Body>
         <Card.Title>{game.name}</Card.Title>
         <Card.Text>{game.platformNames}</Card.Text>
@@ -39,7 +52,9 @@ const GameCard = ({ user, game }) => {
 
         {/* only show if user is logged in */}
         {user && (
-          <GameForm game={game} />
+           <Button variant="primary" type="submit" onClick={() => handleClick(game._id)}>
+           Remove
+       </Button>
         )}
 
 
@@ -49,10 +64,10 @@ const GameCard = ({ user, game }) => {
   )
 }
 
-GameCard.propTypes = {
+FavoriteGameCard.propTypes = {
+  user: PropTypes.object,
   game: PropTypes.object,
 
 };
 
-
-export default GameCard
+export default FavoriteGameCard
