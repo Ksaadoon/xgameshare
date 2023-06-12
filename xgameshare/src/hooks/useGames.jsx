@@ -16,8 +16,11 @@ const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
         const payload = getGamePayload(selectedGenre, selectedPlatform, searchText);
         const gamesData = await igdbService.getData("/games", payload);
 
+        // The variable platformIds is an array of arrays.        
         const platformIds = gamesData.map(game => game.platforms);
+        // console.log("plat: " + platformIds);
         const platformPayload = getGamePlatformIdsPayload(platformIds);
+        // console.log("join: " + platformPayload);
         const platformData = await igdbService.getData("/platforms", platformPayload);
 
         //genre is a short list so ok to use all of them.
