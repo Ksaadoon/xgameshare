@@ -1,10 +1,11 @@
 import GameCardContainer from './../Games/GameCardContainer'
 import { Container, Row } from 'react-bootstrap';
 import FavoriteGameCard from './FavoriteGameCard';
+import useGameFavorites from './../../hooks/useGameFavorites';
 
-const FavoriteGameGrid = ({ user, games, loading }) => {
+const FavoriteGameGrid = ({ user }) => {
 
-  
+  const { games, loading } = useGameFavorites(); // Call the custom hook
 
   return (
     <Container fluid>
@@ -27,13 +28,13 @@ const FavoriteGameGrid = ({ user, games, loading }) => {
         <p>Loading favorite games...</p>
       ) : (
         <>
-        <Row xs={1} sm={2} md={3} lg={4} xl={6}>
-          {games.map((game) => (
-            <GameCardContainer user={user} key={game._id}>
-              <FavoriteGameCard user={user} game={game} />
-            </GameCardContainer>
-          ))}
-        </Row>
+          <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+            {games.map((game) => (
+              <GameCardContainer user={user} key={game.id}>
+                <FavoriteGameCard user={user} game={game} />
+              </GameCardContainer>
+            ))}
+          </Row>
         </>
       )}
     </Container>

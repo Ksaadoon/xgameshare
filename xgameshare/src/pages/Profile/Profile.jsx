@@ -1,34 +1,16 @@
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBarComponent from '../../components/NavBarComponent/NavBarComponent';
 import ProfileHeading from '../../components/Profile/ProfileHeading';
 import ProfileMenu from '../../components/Profile/ProfileMenu';
 import FavoriteGameGrid from '../../components/Profile/FavoriteGameGrid';
 // import { HomePageContext } from '../../components/Context/HomePageContext';
-import * as xgameshareService from './../../services/xgameshare/xgameshare-service';
 
 const Profile = ({ setUser, user }) => {
 
     const navigate = useNavigate();
     const [selectedMenu, setSelectedMenu] = useState(null);
-    const [games, setGames] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchFavoriteGames = async () => {
-            try {
-                const favoriteGames = await xgameshareService.getFavorites();
-                setGames(favoriteGames);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchFavoriteGames();
-    }, [user]);
-
 
     return (
         <>
@@ -48,7 +30,7 @@ const Profile = ({ setUser, user }) => {
                         </Col>
                         <Col md={9}>
                             <ProfileHeading selectedMenu={selectedMenu} />
-                            <FavoriteGameGrid user={user} games={games} loading={loading} />
+                            <FavoriteGameGrid user={user} />
                         </Col>
                     </Row>
                 </Container>
