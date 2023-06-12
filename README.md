@@ -1,6 +1,6 @@
 # xgameshare
 SEIR 2023 React Project #4.
-Xgameshares
+
 
 Browse the latest list of video games by genre, platform or search by name.
 Save a video game as favorite.
