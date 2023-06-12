@@ -20,7 +20,6 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
   const [currentGenre, setCurrentGenre] = useState(selectedGenre);
   const [currentPlatform, setCurrentCurrentPlatform] = useState(selectedPlatform);
   const [currentSearchText, setCurrentSearchText] = useState(searchText);
-  const [reload, setReload] = useState(false);
 
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
   const { games, loading } = useGames(selectedGenre, selectedPlatform, searchText);
@@ -31,8 +30,8 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
     setCurrentGenre(selectedGenre);
     setCurrentCurrentPlatform(selectedPlatform);
     setCurrentSearchText(searchText);
-    setReload(loading);
-  }, [selectedGenre, selectedPlatform, searchText, loading]);
+    
+  }, [selectedGenre, selectedPlatform, searchText]);
 
 
   return (
@@ -41,7 +40,7 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
     xs={1} sm={2} md={3} lg={4} xl={6
     
       VERY IMPORTANT TO ALWAYS HAVE A LOADING CHECK WHEN RENDERING COMPONENT OTHERWISE TONS OF ERRORS HARD TO TRACK */}
-      {loading || reload || currentGenre !== selectedGenre || currentPlatform !== selectedPlatform || currentSearchText !== searchText? (
+      {loading || currentGenre !== selectedGenre || currentPlatform !== selectedPlatform || currentSearchText !== searchText? (
          <Row xs={1} sm={2} md={3} lg={4} xl={6}>
          {Array.from({ length: skeletonCount }).map((_, index) => (
            <Col key={index}>

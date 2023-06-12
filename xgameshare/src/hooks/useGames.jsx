@@ -3,11 +3,11 @@ import { getGamePayload, getGamePlatformIdsPayload , addPlatformGenresNames} fro
 import { useEffect, useState } from 'react';
 
 // custom hooks cannot be marked as async directly.
-const useGames = (selectedGenre, selectedPlatform, searchText, sortOrder) => {
+const useGames = (selectedGenre, selectedPlatform, searchText) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log("useGames input: genre:" + selectedGenre?.id + " platform: " + selectedPlatform?.id + " search: " + searchText + " sortOrder: " + sortOrder);
+  console.log("useGames input: genre:" + selectedGenre?.id + " platform: " + selectedPlatform?.id + " search: " + searchText);
 
   useEffect(() => {
     const fetchData = async () => {
