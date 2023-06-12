@@ -7,9 +7,7 @@ import { roundupNumber } from '../../utilities/data-conversion';
 import * as xgameshareService from './../../services/xgameshare/xgameshare-service';
 
 
-const FavoriteGameCard = (props) => {
-
-  const { key, user, game } = props; 
+const FavoriteGameCard = ({user, game}) => {
 
   let tooltip = game.summary ? game.summary : "No summary available";
 

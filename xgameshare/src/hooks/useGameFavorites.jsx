@@ -13,21 +13,37 @@ const useGameFavorites = () => {
     const fetchData = async () => {
       try {
 
-        const favoriteGames = await xgameshareService.getFavorites();
-        const igdbIds = favoriteGames.map(fav => fav.igdb_game_id); 
+        let favoriteGames = await xgameshareService.getFavorites();
+        if (favoriteGames.length > 0 ) {
+
+        const igdbIds = favoriteGames.map(fav => fav.igdb_game_id);
         const payload = getFavoriteGamesPayload(igdbIds);
-        const gamesData = await igdbService.getData("/games", payload);
+        let gamesData = await igdbService.getData("/games", payload);
 
         const platformIds = gamesData.map(game => game.platforms);
         const platformPayload = getGamePlatformIdsPayload(platformIds);
         const platformData = await igdbService.getData("/platforms", platformPayload);
 
         const genrePayload = "fields name; limit 100;";
-        const genreData =  await igdbService.getData("/genres", genrePayload);  
+        const genreData = await igdbService.getData("/genres", genrePayload);
 
         const gamesWithPlatormAndGenresNames = addPlatformGenresNames(gamesData, platformData, genreData);
-        setGames(gamesWithPlatormAndGenresNames);
-        setLoading(false);
+
+        // Add fav._id to gamesWithPlatformAndGenresNames
+        const gamesWithId = gamesWithPlatormAndGenresNames.map(game => {
+          const matchingFavoriteGame = favoriteGames.find(fav => fav.igdb_game_id === game.id);
+          if (matchingFavoriteGame) {
+            return {
+              ...game,
+              _id: matchingFavoriteGame._id
+            };
+          }
+          return game;
+        });
+        setGames(gamesWithId);
+      }        
+      setLoading(false);
+
 
       } catch (error) {
         console.error(error);

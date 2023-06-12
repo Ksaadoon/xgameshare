@@ -10,7 +10,7 @@ import FavoriteGameGrid from '../../components/Profile/FavoriteGameGrid';
 const Profile = ({ setUser, user }) => {
 
     const navigate = useNavigate();
-    const [selectedMenu, setSelectedMenu] = useState(null);
+    const [selectedMenu, setSelectedMenu] = useState('Favorites');
 
     return (
         <>
