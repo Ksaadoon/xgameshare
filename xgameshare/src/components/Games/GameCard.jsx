@@ -32,15 +32,25 @@ const GameCard = ({ user, game }) => {
 
 
       <Card.Body>
-        <Card.Title>{game.name}</Card.Title>
+        <Card.Title className="game-title">{game.name}</Card.Title>
         <Card.Text>{game.platformNames}</Card.Text>
-        <Card.Text>{game.genreNames}</Card.Text>
-        <GameRating rating={roundupNumber(game.aggregated_rating)} />
+        <Card.Text>{game.genreNames.join(", ")}</Card.Text>
+        
+          <GameRating rating={roundupNumber(game.aggregated_rating)} />
 
-        {/* only show if user is logged in */}
-        {user && (
-          <GameForm game={game} />
-        )}
+          {user && (
+            <div className="ml-auto">
+              <p></p>
+              <GameForm game={game} />
+            </div>
+          )}
+        
+        {/* <div className="d-flex justify-content-evenly rating-button-container">
+          <div className="rating-container">
+            <GameRating rating={roundupNumber(game.aggregated_rating)} />
+          </div>
+          {user && <GameForm game={game} />}
+        </div>   */}
 
 
       </Card.Body>

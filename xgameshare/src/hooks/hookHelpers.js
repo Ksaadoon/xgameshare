@@ -67,10 +67,6 @@ export const getFavoriteGamesPayload = (igdbIds) => {
 
   export const addPlatformGenresNames = (gamesData, platformData, genreData) => {
 
-    console.log(gamesData);
-    console.log(platformData);
-    console.log(genreData);
-
     const gamesWithPlatforms = gamesData.map((game) => {
       const platformIds = game.platforms || []; // Handle case where platforms are not specified
       const platformNames = platformIds.map((platformId) => {
@@ -87,14 +83,6 @@ export const getFavoriteGamesPayload = (igdbIds) => {
       };
     });
   
-  
-    console.log(gamesWithPlatforms);
-  
-  
-
-
-
-
   //Same thing for genres
   const gamesWithPlatormAndGenresNames = gamesWithPlatforms.map(game => {
     const genreIds = game.genres || []; // Handle case where genres are not specified

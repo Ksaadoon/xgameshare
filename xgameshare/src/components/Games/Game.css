@@ -1,0 +1,15 @@
+.game-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: 'normal';
+  }
+
+  .rating-button-container {
+    display: flex;
+    align-items: center;    
+  }
+
+  .card-form-button {
+    display: block;
+  }
+    

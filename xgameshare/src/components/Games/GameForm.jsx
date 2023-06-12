@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import * as xgameshareService from './../../services/xgameshare/xgameshare-service';
+import "./Game.css";
 
 /**
  * 
@@ -45,21 +46,23 @@ const GameForm = ({ game }) => {
     };
 
 
-    return (
-        <>
-            {(alert) && (
-                <Alert variant={variant} onClose={() => setAlert(false)} dismissible>
-                    {alertMessage}
-                </Alert>
-            )}
 
-            {(!saved) && (
-                <Button variant="primary" type="submit" onClick={handleClick}>
-                    Add
-                </Button>
-            )}
-        </>
-    )
+            return (
+            <div >
+                {alert && (
+                    <Alert variant={variant} onClose={() => setAlert(false)} dismissible>
+                        {alertMessage}
+                    </Alert>
+                )}
+
+                {!saved && (
+                    <Button variant="primary" type="submit" onClick={handleClick}>
+                        Add
+                    </Button>
+                )}
+            </div>
+            );
+
 };
 
 

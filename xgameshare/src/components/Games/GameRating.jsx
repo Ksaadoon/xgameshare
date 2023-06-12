@@ -3,10 +3,10 @@ import { Badge } from 'react-bootstrap';
 
 const GameRating = ({ rating }) => {
 
-    let color = rating > 75 ? 'green' : rating > 60 ? 'yellow' : 'red';
+    let color = "white";
     return rating > 0 ? (
-        <Badge style={{ color }}>{rating}</Badge>
-      ) : null
+        <Badge style={{ color }}>rating: {rating}</Badge>
+      ) : <Badge style={{ color }}>rating: n/a</Badge>
 }
 
 GameRating.propTypes = {

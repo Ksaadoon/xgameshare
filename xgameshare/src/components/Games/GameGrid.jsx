@@ -4,6 +4,7 @@ import GameCardContainer from './GameCardContainer';
 import GameCard from './GameCard';
 import { Container,Col, Row } from 'react-bootstrap';
 import GameCardSkeleton from './GameCardSkeleton';
+import { useState , useEffect} from 'react';
 
 /*
     The Games component is receiving a prop : selectedGenre 
@@ -16,9 +17,23 @@ import GameCardSkeleton from './GameCardSkeleton';
 */
 const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
 
+  const [currentGenre, setCurrentGenre] = useState(selectedGenre);
+  const [currentPlatform, setCurrentCurrentPlatform] = useState(selectedPlatform);
+  const [currentSearchText, setCurrentSearchText] = useState(searchText);
+  const [reload, setReload] = useState(false);
+
   // the prop object is passed to the useGames hook so the backend can do an api called based on its value.
   const { games, loading } = useGames(selectedGenre, selectedPlatform, searchText);
   const skeletonCount = 100;
+
+  useEffect(() => {
+    // Update the current genre when the selected genre changes
+    setCurrentGenre(selectedGenre);
+    setCurrentCurrentPlatform(selectedPlatform);
+    setCurrentSearchText(searchText);
+    setReload(loading);
+  }, [selectedGenre, selectedPlatform, searchText, loading]);
+
 
   return (
     <Container fluid>
@@ -26,7 +41,7 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
     xs={1} sm={2} md={3} lg={4} xl={6
     
       VERY IMPORTANT TO ALWAYS HAVE A LOADING CHECK WHEN RENDERING COMPONENT OTHERWISE TONS OF ERRORS HARD TO TRACK */}
-      {loading ? (
+      {loading || reload || currentGenre !== selectedGenre || currentPlatform !== selectedPlatform || currentSearchText !== searchText? (
          <Row xs={1} sm={2} md={3} lg={4} xl={6}>
          {Array.from({ length: skeletonCount }).map((_, index) => (
            <Col key={index}>
@@ -37,7 +52,7 @@ const GameGrid = ({ user, selectedGenre, selectedPlatform, searchText }) => {
         
       ) : (
 
-        <Row xs={1} sm={2} md={3} lg={4} xl={6}>
+        <Row xs={1} sm={2} md={3} lg={4} xl={6} style={{ display: 'flex', alignItems: 'stretch' }}>
           {games.map((game) => (
             <GameCardContainer user={user} key={game.id}>
               <GameCard user={user} game={game} />
